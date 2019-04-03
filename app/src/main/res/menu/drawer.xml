@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_unroot"
+            android:icon="@drawable/navigation_unroot"
+            android:title="@string/DrawerUnroot" />
+        <item
+            android:id="@+id/nav_erase"
+            android:icon="@drawable/navigation_wipe"
+            android:title="@string/DrawerErase" />
+        <item
+            android:id="@+id/nav_impactor"
+            android:icon="@drawable/navigation_unroot_wipe"
+            android:title="@string/DrawerFull" />
+        <item
+            android:id="@+id/nav_reboot"
+            android:icon="@drawable/reboot"
+            android:title="@string/DrawerReboot" />
+    </group>
+
+    <item android:title="@string/DrawerExtra">
+        <menu>
+            <item
+                android:id="@+id/nav_info"
+                android:icon="@drawable/info"
+                android:title="@string/DrawerInfo" />
+        </menu>
+    </item>
+
+</menu>

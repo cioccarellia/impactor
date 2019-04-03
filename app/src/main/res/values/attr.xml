@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <attr name="roundSelector" format="reference" />
+    <attr name="rectSelector" format="reference" />
+    <attr name="rectSelectorStrong" format="reference" />
+
+
+    <attr name="toolbarPopupTheme" format="reference" />
+    <attr name="defaultFooterColor" format="color" />
+
+    <attr name="iconColor" format="color" />
+    <attr name="dividerColor" format="color" />
+    <attr name="licenseIcon" format="color" />
+
+    <attr format="color" name="cardBackgroundColor"/>
+    <attr format="color" name="purchaseBackground"/>
+
+    <attr name="colorPrimary" format="color" />
+    <attr name="colorAccent" format="color" />
+
+    <attr name="primaryTextColour" format="color" />
+    <attr name="secondaryTextColour" format="color" />
+    <attr name="tertiaryTextColour" format="color" />
+
+</resources>

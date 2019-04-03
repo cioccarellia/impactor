@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.andreacioccarelli.impactor">
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DELETE_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSEFS" />
+    <uses-permission android:name="android.permission.CLEAR_APP_USER_DATA"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
+    <uses-permission android:name="android.permission.REBOOT"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+    <application
+        android:resizeableActivity="false"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:label="@string/AppName"
+        android:supportsRtl="true"
+        android:theme="@style/Impactor"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="n">
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
+
+        <activity
+            android:name="com.andreacioccarelli.impactor.ui.UnrootActivity"
+            android:screenOrientation="portrait"
+            android:label="Impactor Unroot"
+            android:theme="@style/Impactor">
+            <intent-filter android:label="Impactor Unroot">
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <meta-data android:name="eu.chainfire.supersu.meta.contentlogging.problematic" android:value="true" />
+        </activity>
+
+        <activity
+            android:name="com.andreacioccarelli.impactor.ui.CompleteUnrootActivity"
+            android:label="@string/TitleUnroot"
+            android:screenOrientation="portrait"
+            android:theme="@style/Impactor">
+            <meta-data android:name="eu.chainfire.supersu.meta.contentlogging.problematic" android:value="true" />
+        </activity>
+        <activity
+            android:name="com.andreacioccarelli.impactor.ui.RebootActivity"
+            android:label="@string/TitleReboot"
+            android:screenOrientation="portrait"
+            android:theme="@style/Impactor" />
+        <meta-data android:name="eu.chainfire.supersu.meta.contentlogging.problematic" android:value="true" />
+        <activity
+            android:name="com.andreacioccarelli.impactor.ui.WipeActivity"
+            android:label="@string/TitleErase"
+            android:screenOrientation="portrait"
+            android:theme="@style/Impactor" />
+        <meta-data android:name="eu.chainfire.supersu.meta.contentlogging.problematic" android:value="true" />
+        <activity
+            android:name="com.andreacioccarelli.impactor.ui.AboutActivity"
+            android:label="@string/TitleInfo"
+            android:screenOrientation="portrait"
+            android:theme="@style/Impactor.AboutActivity">
+        <meta-data android:name="eu.chainfire.supersu.meta.contentlogging.problematic" android:value="true" />
+        </activity>
+    </application>
+</manifest>

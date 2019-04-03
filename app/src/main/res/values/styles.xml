@@ -1,0 +1,35 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="Impactor" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowBackground">@color/Grey_900</item>
+        <item name="primaryTextColour">@color/Grey_150</item>
+        <item name="secondaryTextColour">@color/Grey_200</item>
+        <item name="tertiaryTextColour">@color/Grey_250</item>
+        <item name="cardBackgroundColor">@color/Grey_800</item>
+        <item name="purchaseBackground">@color/Grey_800</item>
+
+        <item name="dividerColor">#10FFFFFF</item>
+        <item name="iconColor">#B3FFFFFF</item>
+        <item name="licenseIcon">@color/Grey_150</item>
+
+    </style>
+
+    <style name="Impactor.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Impactor.AboutActivity" parent="Theme.Mal.Dark">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="mal_toolbarTheme">@color/mal_color_icon_light_theme</item>
+        <item name="mal_toolbarPopupTheme">@color/mal_color_icon_light_theme</item>
+    </style>
+
+
+</resources>

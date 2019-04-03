@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/card_borderless"
+    android:paddingLeft="@dimen/activity_horizontal_margin_tablets"
+    android:paddingRight="@dimen/activity_horizontal_margin_tablets"
+    android:paddingTop="@dimen/activity_top_margin_tablets"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.andreacioccarelli.impactor.ui.WipeActivity"
+    tools:showIn="@layout/erase_layout">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="24dp">
+
+            <android.support.v7.widget.CardView
+                app:cardBackgroundColor="@color/Red_500"
+                android:id="@+id/ErrorPermissionCard"
+                app:cardCornerRadius="0sp"
+                app:cardElevation="2sp"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="0sp"
+                android:layout_marginLeft="0sp"
+                android:layout_marginRight="0sp"
+                android:layout_marginStart="0sp"
+                android:clickable="true"
+                android:drawSelectorOnTop="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20sp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:paddingRight="14sp"
+                        android:paddingLeft="14sp"
+                        android:src="@drawable/warning_permission_error"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imageView"
+                        android:contentDescription="@string/PermissionImageDescriptionAccessibility" />
+
+                    <TextView
+                        android:id="@+id/ErrorPermissionTitle"
+                        android:layout_width="284dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ExternalStoragePermissionTitle"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                        android:layout_toRightOf="@+id/imageView"
+                        android:layout_toEndOf="@+id/imageView"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+
+                    <TextView
+                        android:layout_below="@id/ErrorPermissionTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ExternalStoragePermissionContent"
+                        android:layout_toRightOf="@+id/imageView"
+                        android:layout_toEndOf="@+id/imageView" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                app:cardElevation="2sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="0sp"
+                android:clickable="true"
+                android:drawSelectorOnTop="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="30sp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/DocsCardTitle"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/DataDocs" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <android.support.v7.widget.CardView
+                app:cardElevation="2sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="0sp"
+                android:clickable="true"
+                android:drawSelectorOnTop="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20sp">
+
+                    <TextView
+                        android:id="@+id/check_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/RootCheckCardTitle"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                        android:layout_toEndOf="@+id/check_image"
+                        android:layout_toRightOf="@+id/check_image" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/loading"
+                        android:layout_marginRight="12dp"
+                        android:padding="8dp"
+                        android:id="@+id/check_image"
+                        android:contentDescription="@string/CheckRootOK" />
+
+
+                    <TextView
+                        android:id="@+id/check_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/check_title"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toRightOf="@+id/check_image"
+                        android:layout_toEndOf="@+id/check_image" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                app:cardElevation="2sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="0sp"
+                android:clickable="true"
+                android:drawSelectorOnTop="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20sp">
+
+                    <TextView
+                        android:id="@+id/hw_check_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/SystemCheck"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                        android:layout_toEndOf="@+id/hw_check_image"
+                        android:layout_toRightOf="@+id/hw_check_image" />
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/loading"
+                        android:layout_marginRight="12dp"
+                        android:padding="8dp"
+                        android:id="@+id/hw_check_image"
+                        android:contentDescription="@string/CheckRootError" />
+
+                    <TextView
+                        
+                        android:id="@+id/hw_check_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/hw_check_title"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toRightOf="@+id/hw_check_image"
+                        android:layout_toEndOf="@+id/hw_check_image" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

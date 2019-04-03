@@ -1,0 +1,73 @@
+tasks.whenTaskAdded { task ->
+    if (task.name == "lint" ) {
+        task.enabled = false
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions.suppressWarnings = true
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'io.fabric'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+    defaultConfig {
+        applicationId "com.andreacioccarelli.impactor"
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 94
+        versionName "5.9.3"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+ext {
+    supportLibVersion = '28.0.0'
+}
+
+
+configurations.all {
+    exclude group: 'com.android.support', module: 'support-v13'
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
+
+    implementation "com.android.support:cardview-v7:$supportLibVersion"
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "com.android.support:design:$supportLibVersion"
+    implementation "com.android.support:customtabs:$supportLibVersion"
+
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'com.github.AndreaCioccarelli:LogKit:1.1.1'
+    implementation 'com.afollestad:assent:0.2.5'
+    implementation 'com.jrummyapps:android-shell:1.0.1'
+    implementation 'com.github.GrenderG:Toasty:1.3.1'
+    implementation 'com.jaredrummler:android-device-names:1.1.7'
+    implementation 'com.github.daniel-stoneuk:material-about-library:2.3.0'
+
+    implementation "com.google.firebase:firebase-core:16.0.6"
+    implementation "com.google.firebase:firebase-config:16.1.2"
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
+}
+
+apply plugin: 'com.google.gms.google-services'

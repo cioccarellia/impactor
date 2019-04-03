@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:animateLayoutChanges="true"
+    tools:context="com.andreacioccarelli.impactor.ui.CompleteUnrootActivity">
+
+    <android.support.design.widget.AppBarLayout
+        app:elevation="0sp"
+        android:animateLayoutChanges="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_header_system"
+        android:fitsSystemWindows="true"
+        android:theme="@style/Impactor.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            app:expandedTitleGravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/total_ui" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        app:fabSize="normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/start" />
+
+</android.support.design.widget.CoordinatorLayout>
