@@ -20,8 +20,8 @@ android {
         applicationId "com.andreacioccarelli.impactor"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 94
-        versionName "5.9.3"
+        versionCode 95
+        versionName "5.9.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -58,16 +58,16 @@ dependencies {
     implementation "com.android.support:customtabs:$supportLibVersion"
 
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-    implementation 'com.github.AndreaCioccarelli:LogKit:1.1.1'
+    implementation 'com.github.AndreaCioccarelli:LogKit:1.2.0'
     implementation 'com.afollestad:assent:0.2.5'
     implementation 'com.jrummyapps:android-shell:1.0.1'
     implementation 'com.github.GrenderG:Toasty:1.3.1'
     implementation 'com.jaredrummler:android-device-names:1.1.7'
     implementation 'com.github.daniel-stoneuk:material-about-library:2.3.0'
 
-    implementation "com.google.firebase:firebase-core:16.0.6"
-    implementation "com.google.firebase:firebase-config:16.1.2"
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
+    implementation "com.google.firebase:firebase-core:16.0.8"
+    implementation "com.google.firebase:firebase-config:16.4.1"
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 }
 
 apply plugin: 'com.google.gms.google-services'
