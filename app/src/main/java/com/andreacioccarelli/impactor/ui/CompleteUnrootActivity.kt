@@ -6,13 +6,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.widget.CardView
-import android.support.v7.widget.Toolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.cardview.widget.CardView
+import androidx.appcompat.widget.Toolbar
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -25,10 +25,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.andreacioccarelli.impactor.BuildConfig
 import com.andreacioccarelli.impactor.R
 import com.andreacioccarelli.impactor.base.BaseActivity
-import com.andreacioccarelli.impactor.tools.AssetsProvider
-import com.andreacioccarelli.impactor.tools.CodeExecutor
-import com.andreacioccarelli.impactor.tools.Core
-import com.andreacioccarelli.impactor.tools.PreferenceBuilder
+import com.andreacioccarelli.impactor.tools.*
 
 class CompleteUnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -39,6 +36,8 @@ class CompleteUnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home)
+
+        AdsUtil.initAds(this, R.id.adView)
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 

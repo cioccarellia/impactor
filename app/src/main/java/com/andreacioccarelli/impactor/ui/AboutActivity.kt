@@ -5,12 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import android.support.customtabs.CustomTabsIntent
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.CardView
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -189,12 +189,12 @@ class AboutActivity : MaterialAboutActivity() {
                 .positiveText("CLOSE")
                 .build()
 
-        val RecyclerView = licenseDialog.customView!!.findViewById<RecyclerView>(R.id.LicensesRecyclerView)
+        val RecyclerView = licenseDialog.customView!!.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.LicensesRecyclerView)
 
-        val LayoutManager = LinearLayoutManager(this@AboutActivity)
+        val LayoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@AboutActivity)
         RecyclerView.layoutManager = LayoutManager
         RecyclerView.setHasFixedSize(true)
-        RecyclerView.itemAnimator = DefaultItemAnimator()
+        RecyclerView.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         RecyclerView.addOnItemTouchListener(LicensesTouchListener(applicationContext, RecyclerView, object : ClickListener {
             override fun onClick(view: View, position: Int) {
                 openUrl(libList!![position].URL)
@@ -237,7 +237,7 @@ class AboutActivity : MaterialAboutActivity() {
         libList!!.add(Library("Material Icons", "Google Inc.", LICENSE_APACHE2, "https://material.io/icons/"))
     }
 
-    internal class RVAdapter(private val libs: List<Library>) : RecyclerView.Adapter<RVAdapter.LibraryViewHolder>() {
+    internal class RVAdapter(private val libs: List<Library>) : androidx.recyclerview.widget.RecyclerView.Adapter<RVAdapter.LibraryViewHolder>() {
 
         override fun getItemCount(): Int {
             return libs.size
@@ -253,9 +253,9 @@ class AboutActivity : MaterialAboutActivity() {
             LibraryViewHolder.libraryContent.text = libs[i].author + " | " + libs[i].license
         }
 
-        internal class LibraryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        internal class LibraryViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
-            private var cardView: CardView
+            private var cardView: androidx.cardview.widget.CardView
             var libraryTitle: TextView
             var libraryContent: TextView
 

@@ -13,7 +13,7 @@
     tools:showIn="@layout/reboot_layout">
 
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 app:cardBackgroundColor="@color/Red_500"
                 android:id="@+id/ErrorPermissionCard"
                 app:cardCornerRadius="0sp"
@@ -74,9 +74,9 @@
                         android:layout_toEndOf="@+id/imageView" />
 
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 app:cardElevation="2sp"
                 android:id="@+id/card_reboot"
                 android:layout_width="match_parent"
@@ -105,9 +105,9 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 app:cardElevation="2sp"
                 android:id="@+id/card_shutdown"
                 android:layout_width="match_parent"
@@ -136,9 +136,9 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 app:cardElevation="2sp"
                 android:id="@+id/card_recovery"
                 android:layout_width="match_parent"
@@ -167,11 +167,11 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 app:cardElevation="2sp"
                 android:id="@+id/card_ui"
                 android:layout_width="match_parent"
@@ -200,10 +200,10 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 app:cardElevation="2sp"
                 android:id="@+id/card_bootloader"
                 android:layout_width="match_parent"
@@ -232,10 +232,10 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 app:cardElevation="2sp"
                 android:id="@+id/card_soft_reboot"
                 android:layout_width="match_parent"
@@ -264,9 +264,9 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 app:cardElevation="2sp"
                 android:id="@+id/card_safe"
                 android:layout_width="match_parent"
@@ -294,7 +294,19 @@
                         android:text="@string/SafeModeCardDescription" />
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3758431688628440/8231769425">
+    </com.google.android.gms.ads.AdView>
 </RelativeLayout>

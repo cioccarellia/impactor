@@ -38,6 +38,11 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
 
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3758431688628440~3661969029"/>
+
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />

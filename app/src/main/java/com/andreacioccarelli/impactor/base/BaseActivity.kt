@@ -3,7 +3,7 @@ package com.andreacioccarelli.impactor.base
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Vibrator
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 
 
 @SuppressLint("Registered")

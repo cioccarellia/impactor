@@ -6,13 +6,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.widget.CardView
-import android.support.v7.widget.Toolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.cardview.widget.CardView
+import androidx.appcompat.widget.Toolbar
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -25,11 +25,9 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.andreacioccarelli.impactor.BuildConfig
 import com.andreacioccarelli.impactor.R
 import com.andreacioccarelli.impactor.base.BaseActivity
-import com.andreacioccarelli.impactor.tools.AssetsProvider
-import com.andreacioccarelli.impactor.tools.CodeExecutor
-import com.andreacioccarelli.impactor.tools.Core
-import com.andreacioccarelli.impactor.tools.PreferenceBuilder
+import com.andreacioccarelli.impactor.tools.*
 import com.crashlytics.android.Crashlytics
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import org.jetbrains.anko.doAsync
@@ -49,6 +47,8 @@ class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.unroot)
 
+        AdsUtil.initAds(this, R.id.adView)
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -66,7 +66,7 @@ class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
 
         this.title = resources.getString(R.string.TitleUnroot)
         val fab = findViewById<FloatingActionButton>(R.id.fab)
-        val cardPermission = findViewById<CardView>(R.id.ErrorPermissionCard)
+        val cardPermission = findViewById<androidx.cardview.widget.CardView>(R.id.ErrorPermissionCard)
 
         doAsync {
             var startCounter = mBuilder.getInt("startCounter", 0)
@@ -205,7 +205,7 @@ class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         super.onResume()
         Assent.setActivity(this@UnrootActivity, this@UnrootActivity)
 
-        val permissionCard = findViewById<CardView>(R.id.ErrorPermissionCard)
+        val permissionCard = findViewById<androidx.cardview.widget.CardView>(R.id.ErrorPermissionCard)
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
         if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {

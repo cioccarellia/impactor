@@ -2,9 +2,10 @@ package com.andreacioccarelli.impactor.tools;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Base64;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +20,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-@SuppressWarnings({"unused","WeakerAccess","RedundantStringToString","FieldCanBeLocal"})
+@SuppressWarnings({"unused", "RedundantStringToString","FieldCanBeLocal"})
 public class PreferenceBuilder {
 
     private final SecurePreferences mWriter;

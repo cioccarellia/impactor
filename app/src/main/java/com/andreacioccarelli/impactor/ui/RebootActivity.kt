@@ -5,12 +5,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.widget.CardView
-import android.support.v7.widget.Toolbar
+import com.google.android.material.navigation.NavigationView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.cardview.widget.CardView
+import androidx.appcompat.widget.Toolbar
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -22,6 +22,7 @@ import com.afollestad.assent.PermissionResultSet
 import com.andreacioccarelli.impactor.tools.Core
 import com.andreacioccarelli.impactor.R
 import com.andreacioccarelli.impactor.base.BaseActivity
+import com.andreacioccarelli.impactor.tools.AdsUtil
 import com.andreacioccarelli.impactor.tools.CodeExecutor
 
 import es.dmoral.toasty.Toasty
@@ -32,7 +33,10 @@ class RebootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.reboot)
 
-        val warningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
+
+        AdsUtil.initAds(this, R.id.adView)
+
+        val warningPermissionError = findViewById<androidx.cardview.widget.CardView>(R.id.ErrorPermissionCard)
 
         Thread {
             warningPermissionError.setOnClickListener { view ->
@@ -78,13 +82,13 @@ class RebootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
 
 
         val mExecutor = CodeExecutor()
-        val mCardReboot = findViewById<CardView>(R.id.card_reboot)
-        val mCardShutdown = findViewById<CardView>(R.id.card_shutdown)
-        val mCardRecovery = findViewById<CardView>(R.id.card_recovery)
-        val mCardUI = findViewById<CardView>(R.id.card_ui)
-        val mCardBoot = findViewById<CardView>(R.id.card_bootloader)
-        val mCardSafe = findViewById<CardView>(R.id.card_safe)
-        val mCardFastReboot = findViewById<CardView>(R.id.card_soft_reboot)
+        val mCardReboot = findViewById<androidx.cardview.widget.CardView>(R.id.card_reboot)
+        val mCardShutdown = findViewById<androidx.cardview.widget.CardView>(R.id.card_shutdown)
+        val mCardRecovery = findViewById<androidx.cardview.widget.CardView>(R.id.card_recovery)
+        val mCardUI = findViewById<androidx.cardview.widget.CardView>(R.id.card_ui)
+        val mCardBoot = findViewById<androidx.cardview.widget.CardView>(R.id.card_bootloader)
+        val mCardSafe = findViewById<androidx.cardview.widget.CardView>(R.id.card_safe)
+        val mCardFastReboot = findViewById<androidx.cardview.widget.CardView>(R.id.card_soft_reboot)
 
         mCardReboot.setOnClickListener { view ->
             if (mExecutor.execAsRoot(Core.reboot.Reboot).exitCode != 0)
@@ -125,7 +129,7 @@ class RebootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
     override fun onResume() {
         super.onResume()
         Assent.setActivity(this@RebootActivity, this@RebootActivity)
-        val warningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
+        val warningPermissionError = findViewById<androidx.cardview.widget.CardView>(R.id.ErrorPermissionCard)
 
         if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
             warningPermissionError.visibility = View.VISIBLE

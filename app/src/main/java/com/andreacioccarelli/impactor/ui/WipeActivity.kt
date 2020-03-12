@@ -6,13 +6,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.widget.CardView
-import android.support.v7.widget.Toolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.cardview.widget.CardView
+import androidx.appcompat.widget.Toolbar
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -23,12 +23,9 @@ import android.widget.TextView
 import com.afollestad.assent.Assent
 import com.afollestad.assent.PermissionResultSet
 import com.afollestad.materialdialogs.MaterialDialog
-import com.andreacioccarelli.impactor.tools.Core
 import com.andreacioccarelli.impactor.R
 import com.andreacioccarelli.impactor.base.BaseActivity
-import com.andreacioccarelli.impactor.tools.CodeExecutor
-import com.andreacioccarelli.impactor.tools.AssetsProvider
-import com.andreacioccarelli.impactor.tools.PreferenceBuilder
+import com.andreacioccarelli.impactor.tools.*
 import org.jetbrains.anko.doAsync
 
 class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -41,11 +38,12 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.erase)
 
+        AdsUtil.initAds(this, R.id.adView)
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
         isRoot = prefs.getBoolean("root", false)
 
-        val WarningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
+        val WarningPermissionError = findViewById<androidx.cardview.widget.CardView>(R.id.ErrorPermissionCard)
 
         val t = Thread {
             WarningPermissionError.setOnClickListener { view ->
@@ -156,7 +154,7 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onResume() {
         super.onResume()
         Assent.setActivity(this@WipeActivity, this@WipeActivity)
-        val WarningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
+        val WarningPermissionError = findViewById<androidx.cardview.widget.CardView>(R.id.ErrorPermissionCard)
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
         if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
