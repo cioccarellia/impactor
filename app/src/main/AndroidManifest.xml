@@ -51,6 +51,7 @@
             android:name="com.andreacioccarelli.impactor.ui.UnrootActivity"
             android:screenOrientation="portrait"
             android:label="Impactor Unroot"
+            android:exported="true"
             android:theme="@style/Impactor">
 
             <intent-filter android:label="Impactor Unroot">

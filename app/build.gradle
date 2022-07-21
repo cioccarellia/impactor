@@ -20,7 +20,7 @@ android {
         applicationId "com.andreacioccarelli.impactor"
         minSdkVersion 16
         targetSdkVersion 33
-        versionCode 99
+        versionCode 100
         versionName "5.9.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -59,6 +59,8 @@ dependencies {
     implementation 'androidx.media:media:1.6.0'
     implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    implementation "com.android.billingclient:billing:5.0.0"
 
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.github.AndreaCioccarelli:LogKit:1.2.0'
