@@ -2,8 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="AppName">Impactor Unroot</string>
     <string name="OpenDrawer">Open Drawer</string>
-    <string name="AllDocs">Impactor will unroot your device, removing root access and data. Your apps will be erased, and root access removed. Your media files, such as songs, photos, documents, and media will be preserved.\nThe device will be rebooted during the process, and it can take up to some minutes, depending on your data size; this process will make your device as it has never been modified.</string>
-    <string name="DataDocs">Impactor will wipe your device, removing data and preserving root access. Your apps will be erased, and root access preserved. Your media files, such as songs, photos, documents, and media will be preserved.\nThe device will be rebooted during the process, and it can take up to some minutes, depending on your data size.</string>
+    <string name="AllDocs">Impactor will unroot your device, removing root access and data. Your apps will be erased, and root access removed. Your media files, such as songs, photos, and documents will be preserved.\nThe device will be rebooted during the process, and it can take up to some minutes, depending on your data size; this process will make your device as it has never been modified.</string>
+    <string name="DataDocs">Impactor will wipe your device, removing data and preserving root access. Your apps will be erased, and root access preserved. Your media files, such as songs, photos, and documents will be preserved.\nThe device will be rebooted during the process, and it can take up to some minutes, depending on your data size.</string>
     <string name="UnrootDocs">Impactor will unroot your device, removing root access. Your data will be preserved, and root access removed.\nThe device will be rebooted during the process, and it can take up to some minutes. This process will make your device as it has never been modified.</string>
     <string name="BootloaderCard">Bootloader</string>
     <string name="BootloaderCardDescription">Reboot the device to the bootLoader</string>
@@ -23,10 +23,10 @@
     <string name="DialogEraseTitle">Continue?</string>
     <string name="DialogCancel" tools:ignore="ButtonCase">CANCEL</string>
     <string name="DialogContinue">CONTINUE</string>
-    <string name="DialogFullContent">Your device data will be erased and the system will be unrooted</string>
+    <string name="DialogFullContent">Your device data will be erased, and the system will be unrooted. If you use Magisk, please refer to its uninstallation process before using Impactor</string>
     <string name="DialogFullTitle">Continue?</string>
     <string name="CheckDialogConfirm">I KNOW</string>
-    <string name="CheckDialogContent">Root isn\'t installed on your device, there\'s nothing to do</string>
+    <string name="CheckDialogContent">Root access is not installed (or at least, detected) on your device, so there is nothing to do</string>
     <string name="CheckDialogExit">EXIT</string>
     <string name="CheckDialogTitle">Root Error</string>
     <string name="SystemCheck">System check</string>
@@ -43,7 +43,7 @@
     <string name="DrawerErase">Erase</string>
     <string name="DrawerExtra">Extra</string>
     <string name="DialogUnrootTitle">Confirm unroot</string>
-    <string name="DialogUnrootContent">Continuing, the unroot process will start. Device\'s data won\'t be touched.</string>
+    <string name="DialogUnrootContent">Continuing, the unroot process will start. Device data will not be modified. If you use Magisk, please refer to its uninstallation process before using Impactor</string>
     <string name="ProgressDialogWipeTitle">Formatting</string>
     <string name="DocsCardTitle">Warning</string>
     <string name="RootCheckCardTitle">Root Check</string>

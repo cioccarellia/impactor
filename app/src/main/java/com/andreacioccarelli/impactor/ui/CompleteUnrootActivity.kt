@@ -37,7 +37,7 @@ class CompleteUnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home)
 
-        AdsUtil.initAds(this, R.id.adView)
+        title = "Total reset"
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 

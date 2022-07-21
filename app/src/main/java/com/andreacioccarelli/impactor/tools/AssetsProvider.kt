@@ -3,7 +3,6 @@ package com.andreacioccarelli.impactor.tools
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.os.Handler
 import android.widget.ImageView
 import android.widget.TextView
 
@@ -13,8 +12,10 @@ import com.jrummyapps.android.shell.Shell
 import com.jrummyapps.android.shell.ShellExitCode
 
 import es.dmoral.toasty.Toasty
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @SuppressLint("SetTextI18n")
 class AssetsProvider : ShellExitCode {
@@ -39,7 +40,7 @@ class AssetsProvider : ShellExitCode {
             if (ir) {
                 s1(i1)
                 s2(i2)
-                c1.text = "Root access detected, Impactor is ready to go"
+                c1.text = "Root access has been detected, Impactor is ready to go"
                 c2.text = "Device: " + DeviceName.getDeviceName() + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nBusybox: " + if (CodeExecutor().checkBusyBox()) "Installed" else "Not installed"
             } else {
                 err_ck1(i1)
@@ -51,7 +52,7 @@ class AssetsProvider : ShellExitCode {
 
         fun init(ctx: Context, i1: ImageView, i2: ImageView, c1: TextView, c2: TextView) {
 
-            doAsync {
+            CoroutineScope(Dispatchers.IO).launch {
                 var root = false
                 val busybox = CodeExecutor().checkBusyBox()
 
@@ -59,16 +60,16 @@ class AssetsProvider : ShellExitCode {
                     root = Shell.SU.available()
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    uiThread {
+                    withContext(Dispatchers.Main) {
                         Toasty.error(ctx, "Error raised while checking root", 1).show()
                     }
                 }
 
-                uiThread {
+                withContext(Dispatchers.Main) {
                     if (root) {
                         s1(i1)
                         s2(i2)
-                        c1.text = "Root access detected, Impactor is ready to go"
+                        c1.text = "Root access has been detected, Impactor is ready to go"
                         c2.text = "Device: " + DeviceName.getDeviceName() + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nBusybox: " + if (busybox) "Installed" else "Not installed"
                     } else {
                         err_ck1(i1)

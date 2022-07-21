@@ -6,39 +6,36 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.navigation.NavigationView
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.cardview.widget.CardView
-import androidx.appcompat.widget.Toolbar
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.afollestad.assent.Assent
 import com.afollestad.assent.AssentCallback
 import com.afollestad.materialdialogs.MaterialDialog
 import com.andreacioccarelli.impactor.BuildConfig
 import com.andreacioccarelli.impactor.R
 import com.andreacioccarelli.impactor.base.BaseActivity
-import com.andreacioccarelli.impactor.tools.*
-import com.crashlytics.android.Crashlytics
-import com.google.android.gms.ads.MobileAds
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.find
-import java.util.concurrent.TimeUnit
+import com.andreacioccarelli.impactor.tools.AssetsProvider
+import com.andreacioccarelli.impactor.tools.CodeExecutor
+import com.andreacioccarelli.impactor.tools.Core
+import com.andreacioccarelli.impactor.tools.PreferenceBuilder
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Suppress("UNUSED_ANONYMOUS_PARAMETER")
 class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var canReadExternalStorage = true
-    private lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
 
     private lateinit var mBuilder: PreferenceBuilder
     private lateinit var executor: CodeExecutor
@@ -46,8 +43,6 @@ class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.unroot)
-
-        AdsUtil.initAds(this, R.id.adView)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -68,7 +63,7 @@ class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         val cardPermission = findViewById<androidx.cardview.widget.CardView>(R.id.ErrorPermissionCard)
 
-        doAsync {
+        CoroutineScope(Dispatchers.Main).launch {
             var startCounter = mBuilder.getInt("startCounter", 0)
 
             cardPermission.setOnClickListener {
@@ -131,10 +126,13 @@ class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
 
                             Handler().postDelayed({ unrootDialog.setContent("Unroot in progress, It can take up to minutes.\nDon't touch for any reason your device!") }, 1000)
 
-                            doAsync {
+                            CoroutineScope(Dispatchers.IO).launch {
                                 executor.exec(Core.misc.mountRW)
                                 executor.exec(Core.unroot.battery_stats)
-                                if (!BuildConfig.DEBUG) executor.exec(Core.unroot.disable_wireless_debug)
+
+                                if (!BuildConfig.DEBUG)
+                                    executor.exec(Core.unroot.disable_wireless_debug)
+
                                 executor.exec(Core.unroot.remove_extra_bins)
                                 executor.exec(Core.unroot.remove_init)
                                 executor.exec(Core.unroot.remove_busybox)
@@ -170,35 +168,12 @@ class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         }
 
 
-        val i1 = find(R.id.check_image) as ImageView
-        val i2 = find(R.id.hw_check_image) as ImageView
-        val c1 = find(R.id.check_text) as TextView
-        val c2 = find(R.id.hw_check_text) as TextView
+        val i1 = findViewById<ImageView>(R.id.check_image)
+        val i2 = findViewById<ImageView>(R.id.hw_check_image)
+        val c1 = findViewById<TextView>(R.id.check_text)
+        val c2 = findViewById<TextView>(R.id.hw_check_text)
 
         AssetsProvider.init(baseContext, i1, i2, c1, c2)
-
-        doAsync {
-            try {
-                firebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
-                val configSettings = FirebaseRemoteConfigSettings.Builder()
-                        .setDeveloperModeEnabled(BuildConfig.DEBUG)
-                        .build()
-
-                firebaseRemoteConfig.setConfigSettings(configSettings)
-
-                firebaseRemoteConfig.fetch(if (BuildConfig.DEBUG) 0 else TimeUnit.HOURS.toSeconds(6)).addOnCompleteListener(this@UnrootActivity) { task ->
-                    if (task.isSuccessful) {
-                        firebaseRemoteConfig.activateFetched()
-
-                        mBuilder.putBoolean("show_website", firebaseRemoteConfig.getBoolean("show_website"))
-                        mBuilder.putString("website_url", firebaseRemoteConfig.getString("website_url"))
-                        mBuilder.putString("paypal_web_addr", firebaseRemoteConfig.getString("paypal_url"))
-                    }
-                }
-            } catch (e: Exception) {
-                Crashlytics.logException(e)
-            }
-        }
     }
 
     override fun onResume() {

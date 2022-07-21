@@ -26,7 +26,9 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.andreacioccarelli.impactor.R
 import com.andreacioccarelli.impactor.base.BaseActivity
 import com.andreacioccarelli.impactor.tools.*
-import org.jetbrains.anko.doAsync
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,12 +40,11 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.erase)
 
-        AdsUtil.initAds(this, R.id.adView)
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
         isRoot = prefs.getBoolean("root", false)
 
-        val WarningPermissionError = findViewById<androidx.cardview.widget.CardView>(R.id.ErrorPermissionCard)
+        val WarningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
 
         val t = Thread {
             WarningPermissionError.setOnClickListener { view ->
@@ -104,7 +105,7 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                                 Handler().postDelayed({ unrootDialog.setContent("Wiping /data and /cache...") }, 300)
 
 
-                                doAsync {
+                                CoroutineScope(Dispatchers.IO).launch {
                                     executor.exec(Core.misc.init)
                                     executor.exec(Core.misc.mountRW)
                                     executor.exec(Core.unroot.erase_data_root)
@@ -154,7 +155,7 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onResume() {
         super.onResume()
         Assent.setActivity(this@WipeActivity, this@WipeActivity)
-        val WarningPermissionError = findViewById<androidx.cardview.widget.CardView>(R.id.ErrorPermissionCard)
+        val WarningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
         if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {

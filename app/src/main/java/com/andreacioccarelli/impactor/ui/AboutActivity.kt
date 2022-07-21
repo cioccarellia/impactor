@@ -37,10 +37,9 @@ class AboutActivity : MaterialAboutActivity() {
 
     private val prefs: PreferenceBuilder by lazy { PreferenceBuilder(this@AboutActivity, PreferenceBuilder.DefaultFilename) }
 
-    private var GITHUB = "https://github.com/AndreaCioccarelli"
-    private var GOOGLE_PLUS = "https://plus.google.com/+AndreaCioccarelli"
-    private var TWITTER = "https://twitter.com/ACioccarelli"
-    private var RATE_ON_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.andreacioccarelli.impactor"
+    private val GITHUB = "https://github.com/cioccarellia"
+    private val TWITTER = "https://twitter.com/cioccarellia"
+    private val RATE_ON_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.andreacioccarelli.impactor"
 
     private var libList: MutableList<Library>? = null
 
@@ -108,7 +107,7 @@ class AboutActivity : MaterialAboutActivity() {
 
         appAuthorBuilder.addItem(MaterialAboutActionItem.Builder()
                 .text("Andrea Cioccarelli")
-                .subText("Italy, Lombardia")
+                .subText("Italy")
                 .icon(R.drawable.about_me)
                 .build())
 
@@ -130,27 +129,11 @@ class AboutActivity : MaterialAboutActivity() {
                 .setOnClickAction { openUrl(GITHUB) }
                 .build())
 
-        appAuthorBuilder.addItem(MaterialAboutActionItem.Builder()
-                .text("Add to Google Plus")
-                .icon(R.drawable.about_google_plus)
-                .setOnClickAction { openUrl(GOOGLE_PLUS) }
-                .build())
-
-        if (prefs.getBoolean("show_website", false)) {
-            appAuthorBuilder.addItem(MaterialAboutActionItem.Builder()
-                    .text("View Website")
-                    .icon(R.drawable.about_open_in_browser)
-                    .setOnClickAction { openUrl(prefs.getString("website_url", "")) }
-                    .build())
-        }
-
 
         return MaterialAboutList(appCardBuilder.build(), appActionsBuilder.build(), appAuthorBuilder.build())
     }
 
-    override fun getActivityTitle(): CharSequence? {
-        return "About"
-    }
+    override fun getActivityTitle() = "About"
 
     private fun sendMail() {
         try {
@@ -163,13 +146,12 @@ class AboutActivity : MaterialAboutActivity() {
         } catch (e: ActivityNotFoundException) {
             Toasty.error(baseContext, "No mail app found. Please install one from play store").show()
         }
-
     }
 
     private fun openAppDetails() {
         val packageName = packageName
         try {
-            val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
             intent.data = Uri.parse("package:$packageName")
             startActivity(intent)
         } catch (e: ActivityNotFoundException) {
@@ -189,12 +171,12 @@ class AboutActivity : MaterialAboutActivity() {
                 .positiveText("CLOSE")
                 .build()
 
-        val RecyclerView = licenseDialog.customView!!.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.LicensesRecyclerView)
+        val RecyclerView = licenseDialog.customView!!.findViewById<RecyclerView>(R.id.LicensesRecyclerView)
 
-        val LayoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@AboutActivity)
+        val LayoutManager = LinearLayoutManager(this@AboutActivity)
         RecyclerView.layoutManager = LayoutManager
         RecyclerView.setHasFixedSize(true)
-        RecyclerView.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+        RecyclerView.itemAnimator = DefaultItemAnimator()
         RecyclerView.addOnItemTouchListener(LicensesTouchListener(applicationContext, RecyclerView, object : ClickListener {
             override fun onClick(view: View, position: Int) {
                 openUrl(libList!![position].URL)
@@ -237,7 +219,7 @@ class AboutActivity : MaterialAboutActivity() {
         libList!!.add(Library("Material Icons", "Google Inc.", LICENSE_APACHE2, "https://material.io/icons/"))
     }
 
-    internal class RVAdapter(private val libs: List<Library>) : androidx.recyclerview.widget.RecyclerView.Adapter<RVAdapter.LibraryViewHolder>() {
+    internal class RVAdapter(private val libs: List<Library>) : RecyclerView.Adapter<RVAdapter.LibraryViewHolder>() {
 
         override fun getItemCount(): Int {
             return libs.size
@@ -253,9 +235,9 @@ class AboutActivity : MaterialAboutActivity() {
             LibraryViewHolder.libraryContent.text = libs[i].author + " | " + libs[i].license
         }
 
-        internal class LibraryViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+        internal class LibraryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-            private var cardView: androidx.cardview.widget.CardView
+            private var cardView: CardView
             var libraryTitle: TextView
             var libraryContent: TextView
 

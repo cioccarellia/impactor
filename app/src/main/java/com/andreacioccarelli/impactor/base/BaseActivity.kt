@@ -5,14 +5,12 @@ import android.content.Context
 import android.os.Vibrator
 import androidx.appcompat.app.AppCompatActivity
 
-
-@SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity() {
 
     fun vibrate(time: Int) {
         try {
             val v = baseContext.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             v.vibrate(time.toLong())
-        } catch (ignored: RuntimeException) {}
+        } catch (ignored: Exception) {}
     }
 }
