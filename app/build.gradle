@@ -8,20 +8,21 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     kotlinOptions.suppressWarnings = true
 }
 
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 33
     buildToolsVersion '33.0.0'
+    namespace "com.andreacioccarelli.impactor"
 
     defaultConfig {
         applicationId "com.andreacioccarelli.impactor"
         minSdkVersion 16
         targetSdkVersion 33
-        versionCode 100
-        versionName "5.9.9"
+        versionCode 101
+        versionName "5.9.10"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -36,8 +37,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
@@ -53,20 +54,22 @@ dependencies {
 
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.legacy:legacy-support-core-ui:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation 'androidx.browser:browser:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.browser:browser:1.5.0'
     implementation 'androidx.media:media:1.6.0'
     implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation "com.android.billingclient:billing:5.0.0"
+    implementation "com.android.billingclient:billing:6.0.0"
 
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.github.AndreaCioccarelli:LogKit:1.2.0'
-    implementation 'com.afollestad:assent:0.2.5'
+
+    implementation 'com.afollestad.assent:core:3.0.2'
+
     implementation 'com.jrummyapps:android-shell:1.0.1'
     implementation 'com.github.GrenderG:Toasty:1.4.2'
-    implementation 'com.jaredrummler:android-device-names:2.0.0'
+    implementation 'com.jaredrummler:android-device-names:2.1.1'
     implementation 'com.github.daniel-stoneuk:material-about-library:2.3.0'
 }

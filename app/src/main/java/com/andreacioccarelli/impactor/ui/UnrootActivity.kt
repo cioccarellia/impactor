@@ -9,17 +9,13 @@ import android.provider.Settings
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.afollestad.assent.Assent
-import com.afollestad.assent.AssentCallback
 import com.afollestad.materialdialogs.MaterialDialog
-import com.andreacioccarelli.impactor.BuildConfig
 import com.andreacioccarelli.impactor.R
 import com.andreacioccarelli.impactor.base.BaseActivity
 import com.andreacioccarelli.impactor.tools.AssetsProvider
@@ -86,22 +82,7 @@ class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             }
         }
 
-        Assent.setActivity(this@UnrootActivity, this@UnrootActivity)
-        if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-            cardPermission.visibility = View.VISIBLE
-
-            Assent.requestPermissions(AssentCallback {
-                if (it.isGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-                    cardPermission.visibility = View.GONE
-                    fab.show()
-                } else if (it.isGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-                    cardPermission.visibility = View.VISIBLE
-                    fab.hide()
-                }
-            }, 69, Assent.WRITE_EXTERNAL_STORAGE)
-        } else {
-            cardPermission.visibility = View.GONE
-        }
+        checkPermissions(cardPermission, fab)
 
         fab.setOnClickListener { view ->
             if (mBuilder.getBoolean("root", false)) {
@@ -130,8 +111,7 @@ class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                                 executor.exec(Core.misc.mountRW)
                                 executor.exec(Core.unroot.battery_stats)
 
-                                if (!BuildConfig.DEBUG)
-                                    executor.exec(Core.unroot.disable_wireless_debug)
+                                executor.exec(Core.unroot.disable_wireless_debug)
 
                                 executor.exec(Core.unroot.remove_extra_bins)
                                 executor.exec(Core.unroot.remove_init)
@@ -178,30 +158,11 @@ class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
 
     override fun onResume() {
         super.onResume()
-        Assent.setActivity(this@UnrootActivity, this@UnrootActivity)
 
         val permissionCard = findViewById<androidx.cardview.widget.CardView>(R.id.ErrorPermissionCard)
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
-        if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-            permissionCard.visibility = View.VISIBLE
-            canReadExternalStorage = false
-            fab.hide()
-        } else {
-            permissionCard.visibility = View.GONE
-            fab.show()
-        }
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-        if (isFinishing) Assent.setActivity(this@UnrootActivity, this@UnrootActivity)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Assent.handleResult(permissions, grantResults)
+        checkPermissions(permissionCard, fab)
     }
 
     override fun onBackPressed() {

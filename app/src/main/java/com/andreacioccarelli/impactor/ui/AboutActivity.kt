@@ -17,14 +17,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 import com.afollestad.materialdialogs.MaterialDialog
-import com.andreacioccarelli.impactor.BuildConfig
 import com.andreacioccarelli.impactor.R
 import com.andreacioccarelli.impactor.tools.ClickListener
 import com.andreacioccarelli.impactor.tools.LicensesTouchListener
 import com.andreacioccarelli.impactor.tools.PreferenceBuilder
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
-import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickAction
 import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList
@@ -53,7 +51,7 @@ class AboutActivity : MaterialAboutActivity() {
 
         appCardBuilder.addItem(MaterialAboutActionItem.Builder()
                 .text("Version")
-                .subText(BuildConfig.VERSION_NAME + (if (BuildConfig.DEBUG) " Debug" else " Official") + " (Build " + BuildConfig.VERSION_CODE.toString() + ")")
+                .subText("v5.0 release")
                 .icon(R.drawable.about_version)
                 .build())
 

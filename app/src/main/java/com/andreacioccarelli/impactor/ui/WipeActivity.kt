@@ -16,12 +16,9 @@ import androidx.appcompat.widget.Toolbar
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 
-import com.afollestad.assent.Assent
-import com.afollestad.assent.PermissionResultSet
 import com.afollestad.materialdialogs.MaterialDialog
 import com.andreacioccarelli.impactor.R
 import com.andreacioccarelli.impactor.base.BaseActivity
@@ -44,10 +41,10 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         isRoot = prefs.getBoolean("root", false)
 
-        val WarningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
+        val permissionCard = findViewById<CardView>(R.id.ErrorPermissionCard)
 
         val t = Thread {
-            WarningPermissionError.setOnClickListener { view ->
+            permissionCard.setOnClickListener { view ->
                 val packageName = packageName
                 try {
                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -62,22 +59,7 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
         t.start()
 
-        Assent.setActivity(this@WipeActivity, this@WipeActivity)
-        if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-            WarningPermissionError.visibility = View.VISIBLE
-            Assent.requestPermissions({ result: PermissionResultSet ->
-                if (result.isGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-                    WarningPermissionError.visibility = View.GONE
-                    fab.show()
-                } else if (!result.isGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-                    WarningPermissionError.visibility = View.VISIBLE
-                    fab.hide()
-                }
-            }, 69, Assent.WRITE_EXTERNAL_STORAGE)
-        } else {
-            WarningPermissionError.visibility = View.GONE
-        }
-
+        checkPermissions(permissionCard, fab)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -111,7 +93,7 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                                     executor.exec(Core.unroot.erase_data_root)
                                     executor.autoReboot()
                                 }
-                                //executor.execQueue();
+                                // executor.execQueue();
 
                             }
 
@@ -121,8 +103,8 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         .show()
             } else {
                 MaterialDialog.Builder(this@WipeActivity)
-                        .title("Continue?")
-                        .content("On this device isn't installed root access,you will be redirected to the System Settings app from where you can wipe your device without root")
+                        .title("No Root Access")
+                        .content("This device does not have root access. You will be redirected to the System Settings app from where you can wipe your device without root")
                         .positiveText("OPEN SETTINGS")
                         .negativeText("CANCEL")
                         .backgroundColorRes(R.color.Grey_800)
@@ -138,8 +120,7 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         val toggle = ActionBarDrawerToggle(
                 this@WipeActivity, drawer, toolbar, R.string.DrawerOpen, R.string.DrawerClose)
-        assert(drawer != null)
-        drawer!!.setDrawerListener(toggle)
+        drawer?.setDrawerListener(toggle)
         toggle.syncState()
 
         val i1 = findViewById<ImageView>(R.id.check_image)
@@ -154,30 +135,11 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun onResume() {
         super.onResume()
-        Assent.setActivity(this@WipeActivity, this@WipeActivity)
-        val WarningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
+        val permissionCard = findViewById<CardView>(R.id.ErrorPermissionCard)
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
-        if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-            WarningPermissionError.visibility = View.VISIBLE
-            fab.hide()
-        } else {
-            WarningPermissionError.visibility = View.GONE
-            fab.show()
-        }
+        checkPermissions(permissionCard, fab)
     }
-
-    override fun onPause() {
-        super.onPause()
-        if (isFinishing)
-            Assent.setActivity(this@WipeActivity, this@WipeActivity)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Assent.handleResult(permissions, grantResults)
-    }
-
 
     override fun onBackPressed() {
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)

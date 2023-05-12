@@ -3,7 +3,6 @@ package com.andreacioccarelli.impactor.tools
 import android.os.Environment
 import android.util.Log
 
-import com.andreacioccarelli.impactor.BuildConfig
 import com.jrummyapps.android.shell.CommandResult
 import com.jrummyapps.android.shell.Shell
 import com.jrummyapps.android.shell.ShellExitCode
@@ -46,16 +45,6 @@ class CodeExecutor : ShellExitCode {
         val cleanCommand = builder.toString().replace("@N", Environment.getExternalStorageDirectory().absolutePath)
         val e = execAsRoot(cleanCommand)
 
-        if (BuildConfig.DEBUG) {
-            Log.d(TAG, "-----------------------------------------------------------------------------")
-            Log.d(TAG, "[[Log for command number $c]]")
-
-            Log.d(TAG, "Input:\n$cleanCommand")
-            Log.d(TAG, "Stdout:\n${e.getStdout()}")
-            Log.d(TAG, "Stderr:\n${e.getStderr()}")
-            Log.d(TAG, "Exit Code: ${e.exitCode}")
-            Log.d(TAG, "Successful: ${e.isSuccessful}")
-        }
         c++
     }
 

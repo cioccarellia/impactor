@@ -17,8 +17,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 
-import com.afollestad.assent.Assent
-import com.afollestad.assent.PermissionResultSet
 import com.andreacioccarelli.impactor.tools.Core
 import com.andreacioccarelli.impactor.R
 import com.andreacioccarelli.impactor.base.BaseActivity
@@ -32,10 +30,10 @@ class RebootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.reboot)
 
-        val warningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
+        val permissionCard = findViewById<CardView>(R.id.ErrorPermissionCard)
 
         Thread {
-            warningPermissionError.setOnClickListener { view ->
+            permissionCard.setOnClickListener { view ->
                 val packageName = packageName
 
                 try {
@@ -50,19 +48,7 @@ class RebootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             }
         }.start()
 
-        Assent.setActivity(this@RebootActivity, this@RebootActivity)
-        if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-            warningPermissionError.visibility = View.VISIBLE
-            Assent.requestPermissions({ result: PermissionResultSet ->
-                if (result.isGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-                    warningPermissionError.visibility = View.GONE
-                } else if (!result.isGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-                    warningPermissionError.visibility = View.VISIBLE
-                }
-            }, 69, Assent.WRITE_EXTERNAL_STORAGE)
-        } else {
-            warningPermissionError.visibility = View.GONE
-        }
+        checkPermissions(permissionCard, null)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -124,24 +110,9 @@ class RebootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
 
     override fun onResume() {
         super.onResume()
-        Assent.setActivity(this@RebootActivity, this@RebootActivity)
-        val warningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
+        val permissionCard = findViewById<CardView>(R.id.ErrorPermissionCard)
 
-        if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-            warningPermissionError.visibility = View.VISIBLE
-        } else {
-            warningPermissionError.visibility = View.GONE
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (isFinishing) Assent.setActivity(this@RebootActivity, this@RebootActivity)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Assent.handleResult(permissions, grantResults)
+        checkPermissions(permissionCard, null)
     }
 
     override fun onBackPressed() {
