@@ -3,3 +3,5 @@
 </p>
 <h1 align="center">Impactor</h1>
 </p>
+
+This repository hosts the code used for building Impactor (Unrooting Tool), available on the [Play Store](https://play.google.com/store/apps/details?id=com.andreacioccarelli.impactor), with approximately 400k downloads.
