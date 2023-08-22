@@ -5,17 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.content.ContextCompat
-import androidx.cardview.widget.CardView
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.andreacioccarelli.impactor.R
 import com.andreacioccarelli.impactor.tools.ClickListener
@@ -26,9 +23,6 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
 import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList
-
-import java.util.ArrayList
-
 import es.dmoral.toasty.Toasty
 
 class AboutActivity : MaterialAboutActivity() {
@@ -36,6 +30,7 @@ class AboutActivity : MaterialAboutActivity() {
     private val prefs: PreferenceBuilder by lazy { PreferenceBuilder(this@AboutActivity, PreferenceBuilder.DefaultFilename) }
 
     private val GITHUB = "https://github.com/cioccarellia"
+    private val GITHUB_REPO_URL = "https://github.com/cioccarellia/impactor"
     private val TWITTER = "https://twitter.com/cioccarellia"
     private val RATE_ON_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.andreacioccarelli.impactor"
 
@@ -50,16 +45,25 @@ class AboutActivity : MaterialAboutActivity() {
                 .build())
 
         appCardBuilder.addItem(MaterialAboutActionItem.Builder()
-                .text("Version")
-                .subText("v5.0 release")
-                .icon(R.drawable.about_version)
-                .build())
+            .text("Version")
+            .subText("v5 release")
+            .icon(R.drawable.about_version)
+            .build())
 
         appCardBuilder.addItem(MaterialAboutActionItem.Builder()
                 .text("Package name")
                 .subText(packageName)
                 .icon(R.drawable.about_packagename)
                 .build())
+
+        appCardBuilder.addItem(MaterialAboutActionItem.Builder()
+            .text("Source code")
+            .subText("Explore Impactor's source code on github")
+            .icon(R.drawable.about_code)
+            .setOnClickAction {
+                openUrl(GITHUB_REPO_URL)
+            }
+            .build())
 
         appCardBuilder.addItem(MaterialAboutActionItem.Builder()
                 .text("Licenses")
@@ -93,7 +97,7 @@ class AboutActivity : MaterialAboutActivity() {
 
         appActionsBuilder.addItem(MaterialAboutActionItem.Builder()
                 .text("App Details")
-                .subText("Jump in the Detailed app page")
+                .subText("Jump in the detailed app page")
                 .setOnClickAction { this.openAppDetails() }
                 .icon(R.drawable.about_settings)
                 .build())
@@ -193,28 +197,22 @@ class AboutActivity : MaterialAboutActivity() {
     }
 
     fun openUrl(url: String) {
-        val builder = CustomTabsIntent.Builder()
-        builder.setToolbarColor(ContextCompat.getColor(this@AboutActivity, R.color.colorPrimaryDark))
-        val customTabsIntent = builder.build()
-        try {
-            customTabsIntent.launchUrl(this@AboutActivity, Uri.parse(url))
-        } catch (error: RuntimeException) {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(browserIntent)
-        }
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(browserIntent)
     }
 
     class Library internal constructor(internal var title: String, internal var author: String, internal var license: String, internal var URL: String)
 
     private fun initializeData() {
-        libList = ArrayList()
-        libList!!.add(Library("Material Dialogs", "Aidan follestad", LICENSE_APACHE2, "https://github.com/afollestad/material-dialogs"))
-        libList!!.add(Library("Assent", "Aidan follestad", LICENSE_APACHE2, "https://github.com/afollestad/assent"))
-        libList!!.add(Library("Toasty", "GrenderG", LICENSE_GNU, "https://github.com/GrenderG/Toasty"))
-        libList!!.add(Library("Root Shell", "Jrummy Apps Inc.", LICENSE_APACHE2, "https://github.com/jrummyapps/android-shell/"))
-        libList!!.add(Library("Device Names", "Jrummy Apps Inc.", LICENSE_APACHE2, "https://github.com/jaredrummler/AndroidDeviceNames"))
-        libList!!.add(Library("Chrome Custom Tabs", "Google Inc.", LICENSE_CCBY3, "https://developer.chrome.com/multidevice/android/customtabs"))
-        libList!!.add(Library("Material Icons", "Google Inc.", LICENSE_APACHE2, "https://material.io/icons/"))
+        libList = ArrayList<Library>().apply {
+            add(Library("Material Dialogs", "Aidan follestad", LICENSE_APACHE2, "https://github.com/afollestad/material-dialogs"))
+            add(Library("Assent", "Aidan follestad", LICENSE_APACHE2, "https://github.com/afollestad/assent"))
+            add(Library("Toasty", "GrenderG", LICENSE_GNU, "https://github.com/GrenderG/Toasty"))
+            add(Library("Root Shell", "Jrummy Apps Inc.", LICENSE_APACHE2, "https://github.com/jrummyapps/android-shell/"))
+            add(Library("Device Names", "Jrummy Apps Inc.", LICENSE_APACHE2, "https://github.com/jaredrummler/AndroidDeviceNames"))
+            add(Library("Chrome Custom Tabs", "Google Inc.", LICENSE_CCBY3, "https://developer.chrome.com/multidevice/android/customtabs"))
+            add(Library("Material Icons", "Google Inc.", LICENSE_APACHE2, "https://material.io/icons/"))
+        }
     }
 
     internal class RVAdapter(private val libs: List<Library>) : RecyclerView.Adapter<RVAdapter.LibraryViewHolder>() {

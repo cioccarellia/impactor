@@ -21,7 +21,9 @@ open class BaseActivity : AppCompatActivity() {
         } catch (ignored: Exception) {}
     }
 
-    fun checkPermissions(warningView: CardView, fab: FloatingActionButton?) {
+    fun checkPermissions(warningView: CardView?, fab: FloatingActionButton?) {
+        if (warningView == null) return
+
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
 
             if (!isAllGranted(Permission.WRITE_EXTERNAL_STORAGE)) {
@@ -40,7 +42,7 @@ open class BaseActivity : AppCompatActivity() {
             }
         } else {
             warningView.visibility = View.GONE
-            fab!!.show()
+            fab?.show()
         }
     }
 
