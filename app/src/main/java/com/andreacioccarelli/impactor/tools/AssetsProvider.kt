@@ -38,7 +38,7 @@ class AssetsProvider : ShellExitCode {
             if (ir) {
                 s1(i1)
                 s2(i2)
-                c1.text = "Root access detected, Impactor is ready to go"
+                c1.text = "Root access has been detected, Impactor is ready to go"
                 c2.text = "Device: " + DeviceName.getDeviceName() + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nBusybox: " + if (CodeExecutor().checkBusyBox()) "Installed" else "Not installed"
             } else {
                 err_ck1(i1)
@@ -67,7 +67,7 @@ class AssetsProvider : ShellExitCode {
                     if (root) {
                         s1(i1)
                         s2(i2)
-                        c1.text = "Root access detected, Impactor is ready to go"
+                        c1.text = "Root access has been detected, Impactor is ready to go"
                         c2.text = "Device: " + DeviceName.getDeviceName() + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nBusybox: " + if (busybox) "Installed" else "Not installed"
                     } else {
                         err_ck1(i1)

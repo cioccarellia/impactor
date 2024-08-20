@@ -172,7 +172,7 @@ class SecurePreferences {
     public final String getString(String key,String Default) {
         if (MainStream.contains(encrypt(key,KeyEncrypter))) {
             try {
-                return String.valueOf(decrypt(MainStream.getString(encrypt(key,KeyEncrypter),encrypt(String.valueOf(Default),writer))));
+                return decrypt(MainStream.getString(encrypt(key, KeyEncrypter), encrypt(String.valueOf(Default), writer)));
             } catch (SecurePreferencesException | IllegalArgumentException e) {
                 e.printStackTrace();
                 putString(key,Default);
