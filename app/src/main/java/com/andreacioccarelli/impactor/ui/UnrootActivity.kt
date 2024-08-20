@@ -23,6 +23,7 @@ import com.andreacioccarelli.impactor.tools.Core
 import com.andreacioccarelli.impactor.tools.PreferenceBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.jaredrummler.android.device.DeviceName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -37,6 +38,8 @@ class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.unroot)
+
+        DeviceName.init(this);
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -123,10 +126,10 @@ class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         }
 
 
-        val i1 = findViewById(R.id.check_image) as ImageView
-        val i2 = findViewById(R.id.hw_check_image) as ImageView
-        val c1 = findViewById(R.id.check_text) as TextView
-        val c2 = findViewById(R.id.hw_check_text) as TextView
+        val i1: ImageView = findViewById(R.id.check_image)
+        val i2: ImageView = findViewById(R.id.hw_check_image)
+        val c1: TextView = findViewById(R.id.check_text)
+        val c2: TextView = findViewById(R.id.hw_check_text)
 
         AssetsProvider.init(baseContext, i1, i2, c1, c2)
     }

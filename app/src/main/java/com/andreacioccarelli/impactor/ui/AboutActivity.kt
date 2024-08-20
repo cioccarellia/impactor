@@ -28,9 +28,10 @@ class AboutActivity : MaterialAboutActivity() {
 
     private val prefs: PreferenceBuilder by lazy { PreferenceBuilder(this@AboutActivity, PreferenceBuilder.DefaultFilename) }
 
-    private var GITHUB = "https://github.com/AndreaCioccarelli"
+    private var GITHUB = "https://github.com/cioccarellia"
+    private var GITHUB_REPO = "https://github.com/cioccarellia/impactor"
     private var GOOGLE_PLUS = "https://plus.google.com/+AndreaCioccarelli"
-    private var TWITTER = "https://twitter.com/ACioccarelli"
+    private var TWITTER = "https://twitter.com/cioccarellia"
     private var RATE_ON_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.andreacioccarelli.impactor"
 
     private var libList: MutableList<Library>? = null
@@ -54,6 +55,12 @@ class AboutActivity : MaterialAboutActivity() {
                 .subText(packageName)
                 .icon(R.drawable.about_packagename)
                 .build())
+
+        appCardBuilder.addItem(MaterialAboutActionItem.Builder()
+            .text("Source Code")
+            .icon(R.drawable.about_github)
+            .setOnClickAction { openUrl(GITHUB_REPO) }
+            .build())
 
         appCardBuilder.addItem(MaterialAboutActionItem.Builder()
                 .text("Licenses")

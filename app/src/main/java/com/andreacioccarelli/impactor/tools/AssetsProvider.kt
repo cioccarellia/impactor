@@ -18,19 +18,19 @@ import kotlinx.coroutines.withContext
 @SuppressLint("SetTextI18n")
 class AssetsProvider : ShellExitCode {
     companion object {
-        fun err_ck1(v: ImageView) {
+        private fun err_ck1(v: ImageView) {
             v.setImageResource(R.drawable.check_error)
         }
 
-        fun err_ck2(v: ImageView) {
+        private fun err_ck2(v: ImageView) {
             v.setImageResource(R.drawable.hw_info_red)
         }
 
-        fun s1(v: ImageView) {
+        private fun s1(v: ImageView) {
             v.setImageResource(R.drawable.check_ok)
         }
 
-        fun s2(v: ImageView) {
+        private fun s2(v: ImageView) {
             v.setImageResource(R.drawable.hw_info_green)
         }
 
@@ -38,12 +38,12 @@ class AssetsProvider : ShellExitCode {
             if (ir) {
                 s1(i1)
                 s2(i2)
-                c1.text = "Root access has been detected, Impactor is ready to go"
+                c1.text = "Root access has been detected, Impactor ready to go"
                 c2.text = "Device: " + DeviceName.getDeviceName() + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nBusybox: " + if (CodeExecutor().checkBusyBox()) "Installed" else "Not installed"
             } else {
                 err_ck1(i1)
                 err_ck2(i2)
-                c1.text = "Root access not installed or not allowed, Impactor cannot work on this device"
+                c1.text = "Root access not installed or not allowed"
                 c2.text = "Device: " + DeviceName.getDeviceName() + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nRoot: Not available"
             }
         }
@@ -67,12 +67,12 @@ class AssetsProvider : ShellExitCode {
                     if (root) {
                         s1(i1)
                         s2(i2)
-                        c1.text = "Root access has been detected, Impactor is ready to go"
+                        c1.text = "Root access has been detected, Impactor ready to go"
                         c2.text = "Device: " + DeviceName.getDeviceName() + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nBusybox: " + if (busybox) "Installed" else "Not installed"
                     } else {
                         err_ck1(i1)
                         err_ck2(i2)
-                        c1.text = "Root access not installed or not allowed, Impactor cannot work on this device"
+                        c1.text = "Root access not installed or not allowed"
                         c2.text = "Device: " + DeviceName.getDeviceName() + "\nAndroid Version: " + Build.VERSION.RELEASE + "\nRoot: Not available"
                     }
                 }

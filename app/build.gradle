@@ -9,7 +9,7 @@ android {
         applicationId "com.andreacioccarelli.impactor"
         minSdkVersion 16
         targetSdkVersion 35
-        versionCode 101
+        versionCode 102
         versionName "5.9.10"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -35,24 +35,18 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "androidx.multidex:multidex:2.0.1"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0-RC.2")
 
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.legacy:legacy-support-core-ui:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.browser:browser:1.2.0'
-    implementation 'androidx.media:media:1.1.0'
-    implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    //noinspection GradleDependency
+    implementation 'androidx.browser:browser:1.6.0'
 
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-    implementation 'com.github.AndreaCioccarelli:LogKit:1.2.0'
     implementation 'com.afollestad:assent:0.2.5'
     implementation 'com.jrummyapps:android-shell:1.0.1'
     implementation 'com.github.GrenderG:Toasty:1.4.2'
-    implementation 'com.jaredrummler:android-device-names:1.1.9'
-    implementation 'com.github.daniel-stoneuk:material-about-library:2.3.0'
+    implementation 'com.jaredrummler:android-device-names:2.1.1'
+    //noinspection GradleDependency
+    implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
 }
