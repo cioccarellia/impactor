@@ -2,31 +2,31 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="AppName">Impactor Unroot</string>
     <string name="OpenDrawer">Open Drawer</string>
-    <string name="AllDocs">Impactor will unroot your device, removing root access and data. Your apps will be erased, and root access removed. Your media files, such as songs, photos, documents, and media will be preserved.\nThe device will be rebooted during the process, and it can take up to some minutes, depending on your data size; this process will make your device as it has never been modified.</string>
-    <string name="DataDocs">Impactor will wipe your device, removing data and preserving root access. Your apps will be erased, and root access preserved. Your media files, such as songs, photos, documents, and media will be preserved.\nThe device will be rebooted during the process, and it can take up to some minutes, depending on your data size.</string>
-    <string name="UnrootDocs">Impactor will unroot your device, removing root access. Your data will be preserved, and root access removed.\nThe device will be rebooted during the process, and it can take up to some minutes. This process will make your device as it has never been modified.</string>
+    <string name="AllDocs">Impactor will unroot and wipe your device, removing root access and all data.\nYour apps, files and personal data will be permanently deleted.\nThe device will be rebooted during the process, and it can take up to a few minutes, depending on your data size.\nThis process will return your device back to its factory state.</string>
+    <string name="DataDocs">Impactor will wipe your device, removing data (while preserving root access). Your apps will be erased, and root access preserved. Your media files, such as songs, photos, documents, and media will be preserved.\nThe device will be rebooted during the process, and it can take up to some minutes, depending on your data size.</string>
+    <string name="UnrootDocs">Impactor will unroot your device, removing root access.\nYour applications and data will be preserved, and root access removed.\nThe device will be rebooted during the process, and it can take up to a few minutes.\nAll superuser binaries and managers will be removed.</string>
     <string name="BootloaderCard">Bootloader</string>
-    <string name="BootloaderCardDescription">Reboot the device to the bootLoader</string>
+    <string name="BootloaderCardDescription">Reboot the device to its bootLoader</string>
     <string name="RebootCard">Reboot</string>
     <string name="RebootCardDescription">Reboot the device\'s system</string>
     <string name="RecoveryCard">Recovery</string>
-    <string name="RecoveryCardContent">Boot the device into Recovery Mode</string>
+    <string name="RecoveryCardContent">Boot the device into recovery mode</string>
     <string name="SafeModeCard">Safe Mode</string>
     <string name="SafeModeCardDescription">Restarts Android into safe mode</string>
     <string name="ShutdownCard">Shutdown</string>
-    <string name="ShutdownCardDescription">Powers off the device</string>
+    <string name="ShutdownCardDescription">Power off the device</string>
     <string name="SoftRebootCard">Fast Reboot</string>
-    <string name="SoftRebootCardDescription">Perform a very quick reboot</string>
+    <string name="SoftRebootCardDescription">Perform a soft reboot</string>
     <string name="UIRestartCard">Restart UI</string>
     <string name="UIRestartCardDescription">Restart the SystemUI daemon</string>
     <string name="DialogEraseContent">All data will be erased</string>
     <string name="DialogEraseTitle">Continue?</string>
     <string name="DialogCancel" tools:ignore="ButtonCase">CANCEL</string>
     <string name="DialogContinue">CONTINUE</string>
-    <string name="DialogFullContent">Your device data will be erased and the system will be unrooted</string>
+    <string name="DialogFullContent">Your device data (/data and /cache) will be erased and the system will be unrooted</string>
     <string name="DialogFullTitle">Continue?</string>
-    <string name="CheckDialogConfirm">I KNOW</string>
-    <string name="CheckDialogContent">Root isn\'t installed on your device, there\'s nothing to do</string>
+    <string name="CheckDialogConfirm">UNDERSTOOD</string>
+    <string name="CheckDialogContent">Your device is not rooted.</string>
     <string name="CheckDialogExit">EXIT</string>
     <string name="CheckDialogTitle">Root Error</string>
     <string name="SystemCheck">System check</string>
@@ -43,7 +43,7 @@
     <string name="DrawerErase">Erase</string>
     <string name="DrawerExtra">Extra</string>
     <string name="DialogUnrootTitle">Confirm unroot</string>
-    <string name="DialogUnrootContent">Continuing, the unroot process will start. Device\'s data won\'t be touched.</string>
+    <string name="DialogUnrootContent">Continuing, the unroot process will start.\nDevice data will not be modified.</string>
     <string name="ProgressDialogWipeTitle">Formatting</string>
     <string name="DocsCardTitle">Warning</string>
     <string name="RootCheckCardTitle">Root Check</string>
@@ -52,11 +52,11 @@
     <string name="DrawerTitleUnroot">Impactor Unroot</string>
     <string name="PermissionImageDescriptionAccessibility">Error: Cannot access to external storage</string>
     <string name="ExternalStoragePermissionTitle">Permissions denied</string>
-    <string name="ExternalStoragePermissionContent">Impactor is unable to read external storage because it hasn\'t got the permission. Please allow it in settings</string>
+    <string name="ExternalStoragePermissionContent">Impactor is unable to read external storage because it has not been granted the permission. Please allow it in the application settings</string>
     <string name="CheckRootOK">Root installed</string>
     <string name="CheckRootError">Root error</string>
 
-    <string name="UnrootDialogInit">Initializing unroot process…</string>
+    <string name="UnrootDialogInit">Initializing unroot process...</string>
     <string name="UnrootDialogTitle">Unrooting...</string>
 
 

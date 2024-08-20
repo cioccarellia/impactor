@@ -7,7 +7,6 @@ import com.andreacioccarelli.impactor.BuildConfig
 import com.jrummyapps.android.shell.CommandResult
 import com.jrummyapps.android.shell.Shell
 import com.jrummyapps.android.shell.ShellExitCode
-import org.jetbrains.anko.doAsync
 
 class CodeExecutor : ShellExitCode {
 

@@ -5,17 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.content.ContextCompat
-import androidx.cardview.widget.CardView
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import com.afollestad.materialdialogs.MaterialDialog
 import com.andreacioccarelli.impactor.BuildConfig
 import com.andreacioccarelli.impactor.R
@@ -24,13 +19,9 @@ import com.andreacioccarelli.impactor.tools.LicensesTouchListener
 import com.andreacioccarelli.impactor.tools.PreferenceBuilder
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
-import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickAction
 import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList
-
-import java.util.ArrayList
-
 import es.dmoral.toasty.Toasty
 
 class AboutActivity : MaterialAboutActivity() {
@@ -148,7 +139,7 @@ class AboutActivity : MaterialAboutActivity() {
         return MaterialAboutList(appCardBuilder.build(), appActionsBuilder.build(), appAuthorBuilder.build())
     }
 
-    override fun getActivityTitle(): CharSequence? {
+    override fun getActivityTitle(): CharSequence {
         return "About"
     }
 

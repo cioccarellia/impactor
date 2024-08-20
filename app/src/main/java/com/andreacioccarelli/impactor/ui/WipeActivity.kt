@@ -4,29 +4,33 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.provider.Settings
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.navigation.NavigationView
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.cardview.widget.CardView
-import androidx.appcompat.widget.Toolbar
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
+import androidx.cardview.widget.CardView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.afollestad.assent.Assent
 import com.afollestad.assent.PermissionResultSet
 import com.afollestad.materialdialogs.MaterialDialog
 import com.andreacioccarelli.impactor.R
 import com.andreacioccarelli.impactor.base.BaseActivity
-import com.andreacioccarelli.impactor.tools.*
-import org.jetbrains.anko.doAsync
+import com.andreacioccarelli.impactor.tools.AssetsProvider
+import com.andreacioccarelli.impactor.tools.CodeExecutor
+import com.andreacioccarelli.impactor.tools.Core
+import com.andreacioccarelli.impactor.tools.PreferenceBuilder
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,12 +42,11 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.erase)
 
-        AdsUtil.initAds(this, R.id.adView)
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
         isRoot = prefs.getBoolean("root", false)
 
-        val WarningPermissionError = findViewById<androidx.cardview.widget.CardView>(R.id.ErrorPermissionCard)
+        val WarningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
 
         val t = Thread {
             WarningPermissionError.setOnClickListener { view ->
@@ -101,10 +104,13 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                                         .backgroundColorRes(R.color.Grey_800)
                                         .show()
 
-                                Handler().postDelayed({ unrootDialog.setContent("Wiping /data and /cache...") }, 300)
 
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    delay(300)
+                                    unrootDialog.setContent("Data wiping in progress (/data and /cache).\nProcess can take up to a minute.\nDo not close the application.")
+                                }
 
-                                doAsync {
+                                CoroutineScope(Dispatchers.IO).launch {
                                     executor.exec(Core.misc.init)
                                     executor.exec(Core.misc.mountRW)
                                     executor.exec(Core.unroot.erase_data_root)
@@ -154,7 +160,7 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onResume() {
         super.onResume()
         Assent.setActivity(this@WipeActivity, this@WipeActivity)
-        val WarningPermissionError = findViewById<androidx.cardview.widget.CardView>(R.id.ErrorPermissionCard)
+        val WarningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
         if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {

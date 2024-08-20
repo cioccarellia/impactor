@@ -4,28 +4,34 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.provider.Settings
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.navigation.NavigationView
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.cardview.widget.CardView
-import androidx.appcompat.widget.Toolbar
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
+import androidx.cardview.widget.CardView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.afollestad.assent.Assent
 import com.afollestad.assent.PermissionResultSet
 import com.afollestad.materialdialogs.MaterialDialog
 import com.andreacioccarelli.impactor.BuildConfig
 import com.andreacioccarelli.impactor.R
 import com.andreacioccarelli.impactor.base.BaseActivity
-import com.andreacioccarelli.impactor.tools.*
+import com.andreacioccarelli.impactor.tools.AssetsProvider
+import com.andreacioccarelli.impactor.tools.CodeExecutor
+import com.andreacioccarelli.impactor.tools.Core
+import com.andreacioccarelli.impactor.tools.PreferenceBuilder
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class CompleteUnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -36,8 +42,6 @@ class CompleteUnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home)
-
-        AdsUtil.initAds(this, R.id.adView)
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
@@ -101,26 +105,31 @@ class CompleteUnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSe
                                     .show()
 
 
-                            Handler().postDelayed({ unrootDialog.setContent("unroot and wipe in progress, It can take minutes.\nDon't touch for any reason your device!") }, 1000)
-                            
-                            executor.exec(Core.misc.mountRW)
-                            executor.exec(Core.unroot.battery_stats)
-                            if (!BuildConfig.DEBUG) executor.exec(Core.unroot.disable_wireless_debug)
-                            executor.exec(Core.unroot.kill_all)
-                            executor.exec(Core.unroot.remove_extra_bins)
-                            executor.exec(Core.unroot.remove_init)
-                            executor.exec(Core.unroot.remove_busybox)
-                            executor.exec(Core.unroot.clean_sdcard)
-                            executor.exec(Core.unroot.uninstall_pm)
+                            CoroutineScope(Dispatchers.Main).launch {
+                                delay(500)
+                                unrootDialog.setContent("Unroot and wiping in progress.\nProcess can take up to a minute.\nDo not close the application.")
+                            }
 
-                            executor.exec(Core.unroot.unroot)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                executor.exec(Core.misc.mountRW)
+                                executor.exec(Core.unroot.battery_stats)
+                                if (!BuildConfig.DEBUG) executor.exec(Core.unroot.disable_wireless_debug)
+                                executor.exec(Core.unroot.kill_all)
+                                executor.exec(Core.unroot.remove_extra_bins)
+                                executor.exec(Core.unroot.remove_init)
+                                executor.exec(Core.unroot.remove_busybox)
+                                executor.exec(Core.unroot.clean_sdcard)
+                                executor.exec(Core.unroot.uninstall_pm)
 
-                            executor.exec(Core.unroot.remove_magisk)
-                            executor.exec(Core.unroot.remove_su)
-                            executor.exec(Core.unroot.erase_data_root)
-                            executor.autoReboot()
-                            executor.matchPackages()
-                            //executor.execQueue();
+                                executor.exec(Core.unroot.unroot)
+
+                                executor.exec(Core.unroot.remove_magisk)
+                                executor.exec(Core.unroot.remove_su)
+                                executor.exec(Core.unroot.erase_data_root)
+                                executor.autoReboot()
+                                executor.matchPackages()
+                                //executor.execQueue();
+                            }
 
 
                         }

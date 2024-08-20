@@ -1,31 +1,21 @@
-tasks.whenTaskAdded { task ->
-    if (task.name == "lint" ) {
-        task.enabled = false
-    }
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions.suppressWarnings = true
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.3'
+    compileSdkVersion 35
+    buildToolsVersion '35.0.0'
+
     defaultConfig {
         applicationId "com.andreacioccarelli.impactor"
         minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 98
-        versionName "5.9.7"
+        targetSdkVersion 35
+        versionCode 101
+        versionName "5.9.10"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
+
     buildTypes {
         release {
             shrinkResources true
@@ -33,14 +23,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-}
 
-configurations.all {
-    exclude group: 'com.android.support', module: 'support-v13'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    namespace 'com.andreacioccarelli.impactor'
 }
 
 dependencies {
@@ -48,17 +36,17 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.anko:anko-commons:$anko_version"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0-RC.2")
 
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.legacy:legacy-support-core-ui:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.browser:browser:1.2.0'
     implementation 'androidx.media:media:1.1.0'
     implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.gms:play-services-ads:19.0.0'
 
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.github.AndreaCioccarelli:LogKit:1.2.0'
@@ -67,10 +55,4 @@ dependencies {
     implementation 'com.github.GrenderG:Toasty:1.4.2'
     implementation 'com.jaredrummler:android-device-names:1.1.9'
     implementation 'com.github.daniel-stoneuk:material-about-library:2.3.0'
-
-    implementation "com.google.firebase:firebase-core:17.2.3"
-    implementation "com.google.firebase:firebase-config:19.1.2"
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 }
-
-apply plugin: 'com.google.gms.google-services'
