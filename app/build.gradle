@@ -9,8 +9,8 @@ android {
         applicationId "com.andreacioccarelli.impactor"
         minSdkVersion 16
         targetSdkVersion 35
-        versionCode 102
-        versionName "5.9.10"
+        versionCode 104
+        versionName "5.9.11"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -43,7 +43,6 @@ dependencies {
     implementation 'androidx.browser:browser:1.6.0'
 
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-    implementation 'com.afollestad:assent:0.2.5'
     implementation 'com.jrummyapps:android-shell:1.0.1'
     implementation 'com.github.GrenderG:Toasty:1.4.2'
     implementation 'com.jaredrummler:android-device-names:2.1.1'

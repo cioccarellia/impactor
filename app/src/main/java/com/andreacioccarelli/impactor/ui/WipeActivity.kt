@@ -1,91 +1,59 @@
 package com.andreacioccarelli.impactor.ui
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
-import androidx.cardview.widget.CardView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.afollestad.assent.Assent
-import com.afollestad.assent.PermissionResultSet
 import com.afollestad.materialdialogs.MaterialDialog
 import com.andreacioccarelli.impactor.R
-import com.andreacioccarelli.impactor.base.BaseActivity
+import com.andreacioccarelli.impactor.base.ImpactorActivity
 import com.andreacioccarelli.impactor.tools.AssetsProvider
 import com.andreacioccarelli.impactor.tools.CodeExecutor
 import com.andreacioccarelli.impactor.tools.Core
-import com.andreacioccarelli.impactor.tools.PreferenceBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.jrummyapps.android.shell.Shell
+import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+class WipeActivity : ImpactorActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private var isRoot = false
-    private val prefs: PreferenceBuilder by lazy { PreferenceBuilder(baseContext, PreferenceBuilder.DefaultFilename) }
     private val executor: CodeExecutor by lazy { CodeExecutor() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.erase)
 
-        val fab = findViewById<FloatingActionButton>(R.id.fab)
-
-        isRoot = prefs.getBoolean("root", false)
-
-        val WarningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
-
-        val t = Thread {
-            WarningPermissionError.setOnClickListener { view ->
-                val packageName = packageName
-                try {
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                    intent.data = Uri.parse("package:$packageName")
-                    startActivity(intent)
-                } catch (e: ActivityNotFoundException) {
-                    e.printStackTrace()
-                    val intent = Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS)
-                    startActivity(intent)
-                }
-            }
-        }
-        t.start()
-
-        Assent.setActivity(this@WipeActivity, this@WipeActivity)
-        if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-            WarningPermissionError.visibility = View.VISIBLE
-            Assent.requestPermissions({ result: PermissionResultSet ->
-                if (result.isGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-                    WarningPermissionError.visibility = View.GONE
-                    fab.show()
-                } else if (!result.isGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-                    WarningPermissionError.visibility = View.VISIBLE
-                    fab.hide()
-                }
-            }, 69, Assent.WRITE_EXTERNAL_STORAGE)
-        } else {
-            WarningPermissionError.visibility = View.GONE
-        }
-
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
+        val toggle = ActionBarDrawerToggle(
+            this@WipeActivity, drawer, toolbar, R.string.DrawerOpen, R.string.DrawerClose)
+        assert(drawer != null)
+        drawer!!.setDrawerListener(toggle)
+        toggle.syncState()
+
+
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        navigationView?.setNavigationItemSelectedListener(this)
+
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener { view ->
-            if (isRoot) {
+            if (root) {
                 MaterialDialog.Builder(this@WipeActivity)
                         .title(R.string.DialogEraseTitle)
                         .content(R.string.DialogEraseContent)
@@ -94,10 +62,10 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         .backgroundColorRes(R.color.Grey_800)
                         .positiveColorRes(R.color.DeepOrange_500)
                         .onPositive { _, _ ->
-                            if (isRoot) {
+                            if (root) {
                                 val unrootDialog = MaterialDialog.Builder(this@WipeActivity)
                                         .title(R.string.ProgressDialogWipeTitle)
-                                        .content("Initializing environment..")
+                                        .content(getString(R.string.initializing_environment))
                                         .cancelable(false)
                                         .progress(true, 0)
                                         .progressIndeterminateStyle(false)
@@ -107,7 +75,7 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
                                 CoroutineScope(Dispatchers.Main).launch {
                                     delay(300)
-                                    unrootDialog.setContent("Data wiping in progress (/data and /cache).\nProcess can take up to a minute.\nDo not close the application.")
+                                    unrootDialog.setContent(getString(R.string.progress_wipe))
                                 }
 
                                 CoroutineScope(Dispatchers.IO).launch {
@@ -126,10 +94,10 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         .show()
             } else {
                 MaterialDialog.Builder(this@WipeActivity)
-                        .title("Continue?")
-                        .content("On this device isn't installed root access,you will be redirected to the System Settings app from where you can wipe your device without root")
-                        .positiveText("OPEN SETTINGS")
-                        .negativeText("CANCEL")
+                        .title(getString(R.string.continue_in_system_question))
+                        .content(getString(R.string.continue_in_system_content))
+                        .positiveText(getString(R.string.continue_in_settings_positive))
+                        .negativeText(getString(R.string.continue_in_settings_negative))
                         .backgroundColorRes(R.color.Grey_800)
                         .positiveColorRes(R.color.Red_500)
                         .autoDismiss(true)
@@ -139,48 +107,19 @@ class WipeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         }
 
-
-        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        val toggle = ActionBarDrawerToggle(
-                this@WipeActivity, drawer, toolbar, R.string.DrawerOpen, R.string.DrawerClose)
-        assert(drawer != null)
-        drawer!!.setDrawerListener(toggle)
-        toggle.syncState()
-
-        val i1 = findViewById<ImageView>(R.id.check_image)
-        val i2 = findViewById<ImageView>(R.id.hw_check_image)
-        val c1 = findViewById<TextView>(R.id.check_text)
-        val c2 = findViewById<TextView>(R.id.hw_check_text)
-        AssetsProvider.init(isRoot, i1, i2, c1, c2)
-
-        val navigationView = findViewById<NavigationView>(R.id.nav_view)!!
-        navigationView.setNavigationItemSelectedListener(this)
     }
+
 
     override fun onResume() {
         super.onResume()
-        Assent.setActivity(this@WipeActivity, this@WipeActivity)
-        val WarningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
+
+        val i1: ImageView = findViewById(R.id.check_image)
+        val i2: ImageView = findViewById(R.id.hw_check_image)
+        val c1: TextView = findViewById(R.id.check_text)
+        val c2: TextView = findViewById(R.id.hw_check_text)
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
-        if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-            WarningPermissionError.visibility = View.VISIBLE
-            fab.hide()
-        } else {
-            WarningPermissionError.visibility = View.GONE
-            fab.show()
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (isFinishing)
-            Assent.setActivity(this@WipeActivity, this@WipeActivity)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Assent.handleResult(permissions, grantResults)
+        refreshRootLogic(i1, i2, c1, c2, fab)
     }
 
 

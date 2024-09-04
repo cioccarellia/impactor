@@ -5,22 +5,18 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
-import androidx.cardview.widget.CardView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.afollestad.materialdialogs.MaterialDialog
 import com.andreacioccarelli.impactor.BuildConfig
 import com.andreacioccarelli.impactor.R
-import com.andreacioccarelli.impactor.base.BaseActivity
-import com.andreacioccarelli.impactor.tools.AssetsProvider
+import com.andreacioccarelli.impactor.base.ImpactorActivity
 import com.andreacioccarelli.impactor.tools.CodeExecutor
 import com.andreacioccarelli.impactor.tools.Core
-import com.andreacioccarelli.impactor.tools.PreferenceBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.jaredrummler.android.device.DeviceName
@@ -30,39 +26,35 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Suppress("UNUSED_ANONYMOUS_PARAMETER")
-class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+class UnrootActivity : ImpactorActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var mBuilder: PreferenceBuilder
     private lateinit var executor: CodeExecutor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.unroot)
 
-        DeviceName.init(this);
+        executor = CodeExecutor()
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        mBuilder = PreferenceBuilder(baseContext, PreferenceBuilder.DefaultFilename)
-        executor = CodeExecutor()
-
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         val toggle = ActionBarDrawerToggle(
-                this@UnrootActivity, drawer, toolbar, R.string.DrawerOpen, R.string.DrawerClose)
-        drawer.setDrawerListener(toggle)
+            this@UnrootActivity, drawer, toolbar, R.string.DrawerOpen, R.string.DrawerClose)
+        assert(drawer != null)
+        drawer!!.setDrawerListener(toggle)
         toggle.syncState()
+
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
         this.title = resources.getString(R.string.TitleUnroot)
         val fab = findViewById<FloatingActionButton>(R.id.fab)
-        val cardPermission = findViewById<CardView>(R.id.ErrorPermissionCard)
-        cardPermission.visibility = View.GONE
 
         fab.setOnClickListener { view ->
-            if (mBuilder.getBoolean("root", false)) {
+            if (root) {
                 MaterialDialog.Builder(this@UnrootActivity)
                         .title(R.string.DialogUnrootTitle)
                         .content(R.string.DialogUnrootContent)
@@ -84,7 +76,7 @@ class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
 
                             CoroutineScope(Dispatchers.Main).launch {
                                 delay(500)
-                                unrootDialog.setContent("Unroot in progress.\nProcess can take up to a minute.\nDo not close the application.")
+                                unrootDialog.setContent(getString(R.string.unroot_progress))
                             }
 
                             CoroutineScope(Dispatchers.IO).launch {
@@ -125,14 +117,21 @@ class UnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             }
         }
 
+    }
+
+
+    override fun onResume() {
+        super.onResume()
 
         val i1: ImageView = findViewById(R.id.check_image)
         val i2: ImageView = findViewById(R.id.hw_check_image)
         val c1: TextView = findViewById(R.id.check_text)
         val c2: TextView = findViewById(R.id.hw_check_text)
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
 
-        AssetsProvider.init(baseContext, i1, i2, c1, c2)
+        refreshRootLogic(i1, i2, c1, c2, fab)
     }
+
 
 
     override fun onBackPressed() {

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
@@ -13,21 +12,17 @@ import androidx.cardview.widget.CardView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.andreacioccarelli.impactor.R
-import com.andreacioccarelli.impactor.base.BaseActivity
+import com.andreacioccarelli.impactor.base.ImpactorActivity
 import com.andreacioccarelli.impactor.tools.CodeExecutor
 import com.andreacioccarelli.impactor.tools.Core
 import com.google.android.material.navigation.NavigationView
 import es.dmoral.toasty.Toasty
 
-class RebootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+class RebootActivity : ImpactorActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.reboot)
-
-        val warningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
-
-        warningPermissionError.visibility = View.GONE
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)

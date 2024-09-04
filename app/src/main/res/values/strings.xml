@@ -2,9 +2,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="AppName">Impactor Unroot</string>
     <string name="OpenDrawer">Open Drawer</string>
-    <string name="AllDocs">Impactor will unroot and wipe your device, removing root access and all data.\nYour apps, files and personal data will be permanently deleted.\nThe device will be rebooted during the process, and it can take up to a few minutes, depending on your data size.\nThis process will return your device back to its factory state.</string>
-    <string name="DataDocs">Impactor will wipe your device, removing data (while preserving root access). Your apps will be erased, and root access preserved. Your media files, such as songs, photos, documents, and media will be preserved.\nThe device will be rebooted during the process, and it can take up to some minutes, depending on your data size.</string>
-    <string name="UnrootDocs">Impactor will unroot your device, removing root access.\nYour applications and data will be preserved, and root access removed.\nThe device will be rebooted during the process, and it can take up to a few minutes.\nAll superuser binaries and managers will be removed.</string>
+    <string name="AllDocs">Impactor will unroot and wipe your device, removing root access and all data.\nYour apps, files and personal data will be permanently deleted.\nThe device will be rebooted during the process, and it can take a few minutes, depending on your data size.\nThis process will return your device back to its factory state.</string>
+    <string name="DataDocs">Impactor will wipe your device, removing data (while preserving root access). Your apps will be erased, and root access preserved. Your media files, such as songs, photos, documents, and media will be preserved.\nThe device will be rebooted during the process, and it can take some minutes, depending on your data size.</string>
+    <string name="UnrootDocs">Impactor will unroot your device, removing root access.\nYour applications and data will be preserved, and root access removed.\nThe device will be rebooted during the process, and it can take a few minutes.\nAll superuser binaries and managers will be removed.</string>
     <string name="BootloaderCard">Bootloader</string>
     <string name="BootloaderCardDescription">Reboot the device to its bootLoader</string>
     <string name="RebootCard">Reboot</string>
@@ -58,6 +58,15 @@
 
     <string name="UnrootDialogInit">Initializing unroot process...</string>
     <string name="UnrootDialogTitle">Unrooting...</string>
+    <string name="unroot_progress">Unroot in progress.\nProcess can take up to a minute.\nDo not close the application.</string>
+    <string name="unroot_wipe_progress">Unroot and wiping in progress.\nProcess can take up to a minute.\nDo not close the application.</string>
+    <string name="progress_wipe">Data wiping in progress (/data and /cache).\nProcess can take up to a minute.\nDo not close the application.</string>
+    <string name="initializing_environment">Initializing environment..</string>
+    <string name="continue_in_system_question">Continue in Settings</string>
+    <string name="continue_in_system_content">No root access on this device. You can open the Settings app, search for the wipe menu and confirm the operation</string>
+    <string name="continue_in_settings_positive">OPEN SETTINGS</string>
+    <string name="continue_in_settings_negative">CANCEL</string>
+    <string name="check_in_progress">Check in progress...</string>
 
 
 </resources>

@@ -25,59 +25,8 @@
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
+            app:cardElevation="2sp"
             app:cardBackgroundColor="@color/Amber_500"
-            android:id="@+id/ErrorPermissionCard"
-            app:cardCornerRadius="0sp"
-            app:cardElevation="2sp"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="0sp"
-            android:layout_marginLeft="0sp"
-            android:layout_marginRight="0sp"
-            android:layout_marginStart="0sp"
-            android:clickable="true"
-            android:drawSelectorOnTop="true"
-            android:foreground="?attr/selectableItemBackground">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20sp"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:paddingRight="14sp"
-                    android:src="@drawable/warning_permission_error"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView"
-                    android:contentDescription="@string/PermissionImageDescriptionAccessibility" />
-
-                <TextView
-                    android:id="@+id/ErrorPermissionTitle"
-                    android:layout_width="284dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ExternalStoragePermissionTitle"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:layout_toRightOf="@+id/imageView"
-                    android:layout_toEndOf="@+id/imageView"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
-
-                <TextView
-                    android:layout_below="@id/ErrorPermissionTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ExternalStoragePermissionContent"
-                    android:layout_toRightOf="@+id/imageView"
-                    android:layout_toEndOf="@+id/imageView" />
-
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            app:cardElevation="2sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="0sp"
@@ -147,6 +96,7 @@
 
                 <TextView
                     android:id="@+id/check_text"
+                    android:text="@string/check_in_progress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/check_title"
@@ -195,7 +145,7 @@
                     android:contentDescription="@string/CheckRootError" />
 
                 <TextView
-                    
+                    android:text="@string/check_in_progress"
                     android:id="@+id/hw_check_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

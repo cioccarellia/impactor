@@ -31,6 +31,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:label="@string/AppName"
         android:supportsRtl="true"
+        android:name=".App"
         android:theme="@style/Impactor">
 
         <meta-data

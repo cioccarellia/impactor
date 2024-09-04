@@ -1,91 +1,49 @@
 package com.andreacioccarelli.impactor.ui
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
-import androidx.cardview.widget.CardView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.afollestad.assent.Assent
-import com.afollestad.assent.PermissionResultSet
 import com.afollestad.materialdialogs.MaterialDialog
 import com.andreacioccarelli.impactor.BuildConfig
 import com.andreacioccarelli.impactor.R
-import com.andreacioccarelli.impactor.base.BaseActivity
+import com.andreacioccarelli.impactor.base.ImpactorActivity
 import com.andreacioccarelli.impactor.tools.AssetsProvider
 import com.andreacioccarelli.impactor.tools.CodeExecutor
 import com.andreacioccarelli.impactor.tools.Core
-import com.andreacioccarelli.impactor.tools.PreferenceBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.jrummyapps.android.shell.Shell
+import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class CompleteUnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+class CompleteUnrootActivity : ImpactorActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private var isRoot = false
-    private val prefs: PreferenceBuilder by lazy { PreferenceBuilder(baseContext, PreferenceBuilder.DefaultFilename) }
     private val executor: CodeExecutor by lazy { CodeExecutor() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home)
 
-        val fab = findViewById<FloatingActionButton>(R.id.fab)
-
-        isRoot = prefs.getBoolean("root", false)
-
-        val WarningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
-
-        Thread {
-            WarningPermissionError.setOnClickListener { view ->
-                val packageName = packageName
-                try {
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                    intent.data = Uri.parse("package:$packageName")
-                    startActivity(intent)
-                } catch (e: ActivityNotFoundException) {
-                    e.printStackTrace()
-                    val intent = Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS)
-                    startActivity(intent)
-                }
-            }
-        }.start()
-
-        Assent.setActivity(this@CompleteUnrootActivity, this@CompleteUnrootActivity)
-        if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-            WarningPermissionError.visibility = View.VISIBLE
-            Assent.requestPermissions({ result: PermissionResultSet ->
-                if (result.isGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-                    WarningPermissionError.visibility = View.GONE
-                    fab!!.show()
-                } else if (!result.isGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-                    WarningPermissionError.visibility = View.VISIBLE
-                    fab!!.hide()
-                }
-            }, 69, Assent.WRITE_EXTERNAL_STORAGE)
-        } else {
-            WarningPermissionError.visibility = View.GONE
-        }
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        assert(fab != null)
-        fab!!.setOnClickListener { view ->
-            if (isRoot) {
+
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
+        fab?.setOnClickListener { view ->
+            if (root) {
                 executor.execAsRoot(Core.misc.init)
 
                 MaterialDialog.Builder(this@CompleteUnrootActivity)
@@ -107,7 +65,7 @@ class CompleteUnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSe
 
                             CoroutineScope(Dispatchers.Main).launch {
                                 delay(500)
-                                unrootDialog.setContent("Unroot and wiping in progress.\nProcess can take up to a minute.\nDo not close the application.")
+                                unrootDialog.setContent(getString(R.string.unroot_wipe_progress))
                             }
 
                             CoroutineScope(Dispatchers.IO).launch {
@@ -159,38 +117,20 @@ class CompleteUnrootActivity : BaseActivity(), NavigationView.OnNavigationItemSe
         val navigationView = findViewById<NavigationView>(R.id.nav_view)!!
         navigationView.setNavigationItemSelectedListener(this)
 
-        val i1 = findViewById<ImageView>(R.id.check_image)
-        val i2 = findViewById<ImageView>(R.id.hw_check_image)
-        val c1 = findViewById<TextView>(R.id.check_text)
-        val c2 = findViewById<TextView>(R.id.hw_check_text)
-        AssetsProvider.init(isRoot, i1, i2, c1, c2)
-
     }
+
+
 
     override fun onResume() {
         super.onResume()
-        Assent.setActivity(this@CompleteUnrootActivity, this@CompleteUnrootActivity)
-        val WarningPermissionError = findViewById<CardView>(R.id.ErrorPermissionCard)
+
+        val i1: ImageView = findViewById(R.id.check_image)
+        val i2: ImageView = findViewById(R.id.hw_check_image)
+        val c1: TextView = findViewById(R.id.check_text)
+        val c2: TextView = findViewById(R.id.hw_check_text)
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
-        if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-            WarningPermissionError.visibility = View.VISIBLE
-            fab.hide()
-        } else {
-            WarningPermissionError.visibility = View.GONE
-            fab.show()
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (isFinishing)
-            Assent.setActivity(this@CompleteUnrootActivity, this@CompleteUnrootActivity)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Assent.handleResult(permissions, grantResults)
+        refreshRootLogic(i1, i2, c1, c2, fab)
     }
 
 
