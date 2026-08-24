@@ -4,19 +4,23 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.afollestad.materialdialogs.MaterialDialog
 import com.andreacioccarelli.impactor.BuildConfig
 import com.andreacioccarelli.impactor.R
 import com.andreacioccarelli.impactor.tools.ClickListener
 import com.andreacioccarelli.impactor.tools.LicensesTouchListener
-import com.andreacioccarelli.impactor.tools.PreferenceBuilder
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
 import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem
@@ -26,11 +30,29 @@ import es.dmoral.toasty.Toasty
 
 class AboutActivity : MaterialAboutActivity() {
 
-    private val prefs: PreferenceBuilder by lazy { PreferenceBuilder(this@AboutActivity, PreferenceBuilder.DefaultFilename) }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // material-about-library predates edge-to-edge, so with the enforcement that came in
+        // Android 15 its toolbar ends up drawn underneath the status bar. Inset it by hand.
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mal_appbarlayout)) { view, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            view.updatePadding(top = bars.top)
+            insets
+        }
+
+        // Same for the bottom: let the last card scroll clear of the navigation bar.
+        val list = findViewById<View>(R.id.mal_recyclerview)
+        ViewCompat.setOnApplyWindowInsetsListener(list) { view, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            view.updatePadding(bottom = bars.bottom)
+            insets
+        }
+        (list as? androidx.recyclerview.widget.RecyclerView)?.clipToPadding = false
+    }
 
     private var GITHUB = "https://github.com/cioccarellia"
     private var GITHUB_REPO = "https://github.com/cioccarellia/impactor"
-    private var GOOGLE_PLUS = "https://plus.google.com/+AndreaCioccarelli"
     private var TWITTER = "https://twitter.com/cioccarellia"
     private var RATE_ON_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.andreacioccarelli.impactor"
 
@@ -68,7 +90,6 @@ class AboutActivity : MaterialAboutActivity() {
                 .setOnClickAction { this.showLicenseDialog() }
                 .build())
 
-
         val appActionsBuilder = MaterialAboutCard.Builder()
 
         appActionsBuilder.title("Quick Actions")
@@ -80,25 +101,12 @@ class AboutActivity : MaterialAboutActivity() {
                 .setOnClickAction { openUrl(RATE_ON_GOOGLE_PLAY) }
                 .build())
 
-        /*appActionsBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text("Join in the G+ Community")
-                .icon(R.drawable.about_community_google_plus)
-                .setOnClickAction(() -> openUrl(GOOGLE_PLUS_COMMUNITY))
-                .build());*/
-
-        /*appActionsBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text("Check for Updates")
-                .icon(R.drawable.about_updates)
-                .setOnClickAction(this::checkForUpdates)
-                .build());*/
-
         appActionsBuilder.addItem(MaterialAboutActionItem.Builder()
                 .text("App Details")
                 .subText("Jump in the Detailed app page")
                 .setOnClickAction { this.openAppDetails() }
                 .icon(R.drawable.about_settings)
                 .build())
-
 
         val appAuthorBuilder = MaterialAboutCard.Builder()
 
@@ -127,21 +135,6 @@ class AboutActivity : MaterialAboutActivity() {
                 .icon(R.drawable.about_github)
                 .setOnClickAction { openUrl(GITHUB) }
                 .build())
-
-        appAuthorBuilder.addItem(MaterialAboutActionItem.Builder()
-                .text("Add to Google Plus")
-                .icon(R.drawable.about_google_plus)
-                .setOnClickAction { openUrl(GOOGLE_PLUS) }
-                .build())
-
-        if (prefs.getBoolean("show_website", false)) {
-            appAuthorBuilder.addItem(MaterialAboutActionItem.Builder()
-                    .text("View Website")
-                    .icon(R.drawable.about_open_in_browser)
-                    .setOnClickAction { openUrl(prefs.getString("website_url", "")) }
-                    .build())
-        }
-
 
         return MaterialAboutList(appCardBuilder.build(), appActionsBuilder.build(), appAuthorBuilder.build())
     }
@@ -211,9 +204,12 @@ class AboutActivity : MaterialAboutActivity() {
     }
 
     fun openUrl(url: String) {
-        val builder = CustomTabsIntent.Builder()
-        builder.setToolbarColor(ContextCompat.getColor(this@AboutActivity, R.color.colorPrimaryDark))
-        val customTabsIntent = builder.build()
+        val colors = CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(ContextCompat.getColor(this@AboutActivity, R.color.colorPrimaryDark))
+                .build()
+        val customTabsIntent = CustomTabsIntent.Builder()
+                .setDefaultColorSchemeParams(colors)
+                .build()
         try {
             customTabsIntent.launchUrl(this@AboutActivity, Uri.parse(url))
         } catch (error: RuntimeException) {

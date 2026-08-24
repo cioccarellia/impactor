@@ -1,16 +1,9 @@
 package com.andreacioccarelli.impactor.ui
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import com.afollestad.materialdialogs.MaterialDialog
 import com.andreacioccarelli.impactor.BuildConfig
 import com.andreacioccarelli.impactor.R
@@ -18,15 +11,13 @@ import com.andreacioccarelli.impactor.base.ImpactorActivity
 import com.andreacioccarelli.impactor.tools.CodeExecutor
 import com.andreacioccarelli.impactor.tools.Core
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.navigation.NavigationView
-import com.jaredrummler.android.device.DeviceName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Suppress("UNUSED_ANONYMOUS_PARAMETER")
-class UnrootActivity : ImpactorActivity(), NavigationView.OnNavigationItemSelectedListener {
+class UnrootActivity : ImpactorActivity() {
 
     private lateinit var executor: CodeExecutor
 
@@ -37,18 +28,8 @@ class UnrootActivity : ImpactorActivity(), NavigationView.OnNavigationItemSelect
         executor = CodeExecutor()
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        setupDrawer(toolbar)
 
-        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        val toggle = ActionBarDrawerToggle(
-            this@UnrootActivity, drawer, toolbar, R.string.DrawerOpen, R.string.DrawerClose)
-        assert(drawer != null)
-        drawer!!.setDrawerListener(toggle)
-        toggle.syncState()
-
-
-        val navigationView = findViewById<NavigationView>(R.id.nav_view)
-        navigationView.setNavigationItemSelectedListener(this)
 
         this.title = resources.getString(R.string.TitleUnroot)
         val fab = findViewById<FloatingActionButton>(R.id.fab)
@@ -111,7 +92,7 @@ class UnrootActivity : ImpactorActivity(), NavigationView.OnNavigationItemSelect
                         .onPositive { dialog, which -> dialog.dismiss() }
                         .onNegative { dialog, which ->
                             dialog.dismiss()
-                            onBackPressed()
+                            finish()
                         }
                         .show()
             }
@@ -132,74 +113,5 @@ class UnrootActivity : ImpactorActivity(), NavigationView.OnNavigationItemSelect
         refreshRootLogic(i1, i2, c1, c2, fab)
     }
 
-
-
-    override fun onBackPressed() {
-        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
-
-    override fun onKeyLongPress(keyCode: Int, event: KeyEvent): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-            if (!drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.openDrawer(GravityCompat.START)
-                vibrate(10)
-            } else if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START)
-                vibrate(10)
-            }
-            return true
-        }
-        return super.onKeyLongPress(keyCode, event)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-
-        if (id == R.id.main_menu) {
-            val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-            drawer.openDrawer(GravityCompat.START)
-            return true
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-
-        when (id) {
-            R.id.nav_impactor -> {
-                val impactor = Intent(this@UnrootActivity, CompleteUnrootActivity::class.java)
-                startActivity(impactor)
-            }
-            R.id.nav_erase -> {
-                val erase = Intent(this@UnrootActivity, WipeActivity::class.java)
-                startActivity(erase)
-            }
-            R.id.nav_reboot -> {
-                val reboot = Intent(this@UnrootActivity, RebootActivity::class.java)
-                startActivity(reboot)
-            }
-            R.id.nav_info -> {
-                val info = Intent(this@UnrootActivity, AboutActivity::class.java)
-                startActivity(info)
-            }
-        }
-
-        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        drawer.closeDrawer(GravityCompat.START)
-        return true
-    }
 
 }

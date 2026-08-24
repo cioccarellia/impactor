@@ -50,9 +50,6 @@
     <string name="DrawerTitleWipe">Impactor Eraser</string>
     <string name="DrawerTitleReboot">Impactor Riavvia</string>
     <string name="DrawerTitleUnroot">Impactor Unroot</string>
-    <string name="PermissionImageDescriptionAccessibility">Errore: impossibile accedere alla memoria esterna</string>
-    <string name="ExternalStoragePermissionTitle">Permessi negati</string>
-    <string name="ExternalStoragePermissionContent">Impactor non è in grado di leggere la memoria esterna poiché non è stato concesso il permesso. Per favore, concedilo nelle impostazioni dell\'applicazione</string>
     <string name="CheckRootOK">Root installato</string>
     <string name="CheckRootError">Errore di root</string>
 

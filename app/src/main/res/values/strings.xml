@@ -50,9 +50,6 @@
     <string name="DrawerTitleWipe">Impactor Eraser</string>
     <string name="DrawerTitleReboot">Impactor Reboot</string>
     <string name="DrawerTitleUnroot">Impactor Unroot</string>
-    <string name="PermissionImageDescriptionAccessibility">Error: Cannot access to external storage</string>
-    <string name="ExternalStoragePermissionTitle">Permissions denied</string>
-    <string name="ExternalStoragePermissionContent">Impactor is unable to read external storage because it has not been granted the permission. Please allow it in the application settings</string>
     <string name="CheckRootOK">Root installed</string>
     <string name="CheckRootError">Root error</string>
 
